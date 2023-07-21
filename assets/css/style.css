@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+  /* no need to add flex or grid since materialize already prodive fluid respondive grid */
+  background: linear-gradient(0deg, rgb(171, 193, 207) 0%, rgb(125, 143, 151) 63%);
+}
+
+header {
+  background: linear-gradient(0deg, rgb(6, 26, 53) 0%, rgb(202, 211, 210) 63%);
+  padding: 40px;
+  text-align: center;
+  background-color: #13293d;
+  color: #fff;
+}
+
+main {
+  /* Change or eliminate width and height however needed after materialize library */
+  width: 1000px;
+  height: 600px;
+  margin: auto;
+  background: #5e6974;
+  border: 3px solid black;
+}
+/* we can add more based on the classes we need and the events */
+
+section {
+  text-align: center;
+}
+
+footer {
+  text-align: center;
+}
