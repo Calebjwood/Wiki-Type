@@ -4,17 +4,14 @@ The case study of "toilet paper orientation" has been used as a teaching tool in
 
 var paragraphEl = $('#test-paragraph')
 
-
-
 function formatText(text) {
     //splits into array
     textArray = text.split(' ')
     finalText = ''
 
     for (var i = 0; i < textArray.length; i++){
-        // console.log(textArray[i])
         // uses a regex pattern to remove all unwanted characters
-        textArray[i] = textArray[i].replace(/[^A-Za-z]/g, "");
+        textArray[i] = textArray[i].replace(/[^A-Za-z0-9]/g, "");
         //joins them back together with a space
         finalText += textArray[i].toLowerCase() + " ";
     }
@@ -22,23 +19,20 @@ function formatText(text) {
     return(finalText);
 }
 
-
-
 function showText(text) {
     
     textArray = text.split(' ');
-    console.log(textArray)
+
     for (var j = 0; j < textArray.length; j++){
         var wordEl = $('<div>');
         wordEl.addClass('word');
+        // word class to be able to use flexbox
 
         for (var i = 0; i <= textArray[j].length; i++){
-        
+            // makes a letter div and adds each letter or a space to the element
             var letterEl =  $('<div>');
             var letter = textArray[j][i] || '&nbsp;';
-            // if (letter === ' ') {
-            //     letter = '&nbsp;';
-            // }
+            
             letterEl.addClass('letter');
     
             letterEl.append(letter);
@@ -51,4 +45,6 @@ function showText(text) {
 
     console.log(paragraphEl)
 }
+
+
 showText(formatText(testParagraph));
