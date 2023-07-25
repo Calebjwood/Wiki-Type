@@ -1,15 +1,30 @@
-var testParagraph = `Some toilet roll holders or dispensers allow the toilet paper to hang in front of (over) or behind (under) the roll when it is placed parallel to the wall. This divides opinions about which orientation is better. Arguments range from aesthetics, hospitality, ease of access, and cleanliness, to paper conservation, ease of detaching sheets, and compatibility with pets. 
-The US advice column Ask Ann Landers reported that the subject was the most controversial issue in the column's history and, at 15,000 letters in 1986, provoked the highest number of responses.[1]
-The case study of "toilet paper orientation" has been used as a teaching tool in instructing sociology students in the practice of social constructionism.`
+var testParagraph = `Some toilet roll holders[4] or dispensers allow the toilet paper to hang in front of (over) or behind (under) the roll when it is placed parallel to the wall. This divides opinions about which orientation is better. Arguments range from aesthetics, hospitality, ease of access, and cleanliness, to paper conservation, ease of detaching sheets, and compatibility with pets. 
+The US advice column Ask Ann Landers reported that the subject was the most controversial issue in the column's history and, at 15,000 letters in 1986, provoked the highest number of responses.[1] 
+The case study of "toilet paper orientation" has been used as a teaching tool[123] in instructing sociology students in the practice of social constructionism.`
 
 var paragraphEl = $('#test-paragraph')
+var currentLetter = 0;
+// array used for the div letters
+var letterArray = []
 
 function formatText(text) {
+    // removes any source link from the text such as [1] or [123]
+
+    tempText = text;
+
+    while (tempText.includes('[')) {
+        var i = tempText.indexOf('[');
+        var j = tempText.indexOf(']') + 1;
+        tempText = tempText.replace(tempText.substring(i, j), '');
+    }
+
     //splits into array
-    textArray = text.split(' ')
+    textArray = tempText.split(' ')
     finalText = ''
 
+
     for (var i = 0; i < textArray.length; i++){
+
         // uses a regex pattern to remove all unwanted characters
         textArray[i] = textArray[i].replace(/[^A-Za-z0-9]/g, "");
         //joins them back together with a space
@@ -36,15 +51,42 @@ function showText(text) {
             letterEl.addClass('letter');
     
             letterEl.append(letter);
-            console.log(letterEl, letter)
             wordEl.append(letterEl);
         }
 
         paragraphEl.append(wordEl);
     }
+    letterArray = paragraphEl.children().children()
+}
 
-    console.log(paragraphEl)
+function onKeyPress(event) {
+    // need to start timer here
+
+    var letter = $(letterArray[currentLetter])
+    currentLetter++;
+    letter.addClass('current');
+
+    if (event.key === letter.text()){
+        letter.addClass('correct')
+    }
+    else if (event.key === 'Backspace') {
+        console.log(currentLetter)
+
+        letter = $(letterArray[currentLetter-1]);
+        letter.removeClass('current correct wrong');
+        currentLetter-=2;
+    }   
+    else {
+        letter.addClass('wrong')
+    }
+
+   
+    
 }
 
 
 showText(formatText(testParagraph));
+
+
+addEventListener('keydown', onKeyPress);
+

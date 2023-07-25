@@ -41,11 +41,16 @@ button {
   padding: .5rem;
 }
 
+
+
 .word {
   display: flex;
   flex-direction: row;
 }
 
+.letter {
+  font-size: 16pt;
+}
 #test-paragraph {
   display: flex;
   flex-wrap: wrap;
@@ -55,3 +60,15 @@ button {
   border: 3px solid black;
 }
 
+.correct {
+  color: green;
+}
+
+.wrong {
+  color: red;
+}
+
+.current {
+  padding-bottom: .5rem;
+  border-bottom: 3px solid black;
+}
