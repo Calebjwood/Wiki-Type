@@ -40,3 +40,18 @@ button {
   height: 2rem;
   padding: .5rem;
 }
+
+.word {
+  display: flex;
+  flex-direction: row;
+}
+
+#test-paragraph {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  padding: 1rem;
+  margin: 2rem;
+  border: 3px solid black;
+}
+
