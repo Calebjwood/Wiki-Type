@@ -63,25 +63,39 @@ function onKeyPress(event) {
     // need to start timer here
 
     var letter = $(letterArray[currentLetter])
-    currentLetter++;
+    
+
+
     letter.addClass('current');
 
     if (event.key === letter.text()){
         letter.addClass('correct')
+        $(letterArray[currentLetter+1]).addClass('current')
+        currentLetter++;
+        letter.removeClass('current');
     }
     else if (event.key === 'Backspace') {
-        console.log(currentLetter)
-
-        letter = $(letterArray[currentLetter-1]);
         letter.removeClass('current correct wrong');
-        currentLetter-=2;
+        currentLetter--;
+        letter = $(letterArray[currentLetter]);
+        letter.addClass('current')
+        letter.removeClass('correct wrong');
     }   
     else {
         letter.addClass('wrong')
+        $(letterArray[currentLetter+1]).addClass('current')
+        currentLetter++;
+        letter.removeClass('current');
     }
 
-   
-    
+
+    if (currentLetter <= 0) {
+        currentLetter = 0;
+    }
+    else if (currentLetter > letterArray.length) {
+        currentLetter = letterArray.length
+    }
+    console.log(currentLetter)
 }
 
 

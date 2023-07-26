@@ -51,6 +51,7 @@ button {
 .letter {
   font-size: 16pt;
 }
+
 #test-paragraph {
   display: flex;
   flex-wrap: wrap;
