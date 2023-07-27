@@ -9,19 +9,12 @@ body {
   background: linear-gradient(0deg, rgb(171, 193, 207) 0%, rgb(125, 143, 151) 63%);
 }
 
-header {
-  background: linear-gradient(0deg, rgb(6, 26, 53) 0%, rgb(202, 211, 210) 63%);
-  padding: 40px;
-  text-align: center;
-  background-color: #13293d;
-  color: #fff;
-}
 
 main {
   /* Change or eliminate width and height however needed after materialize library */
-  width: 1000px;
-  height: 600px;
-  margin: auto;
+  width: 60%;
+  height: 80vh;
+  margin: 3rem auto;
   background: #5e6974;
   border: 3px solid black;
 }
@@ -62,11 +55,11 @@ button {
 }
 
 .correct {
-  color: green;
+  color: rgb(47, 255, 47);
 }
 
 .wrong {
-  color: red;
+  color: rgb(255, 18, 18);
 }
 
 .current {
