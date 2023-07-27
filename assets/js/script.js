@@ -1,22 +1,20 @@
-let startEl = $('#startBtn');
-let test = $('<p>');
-let timer;
-let timerCount = $('#play-area');
+let timerArea = $("#timeClock");
+let theBigRedButton = $("#startBtn");
+let secondsLeft = 60;
 
+theBigRedButton.click(setTime);
 
-$(function () {
-    $(startEl).on('click', function () {
-        $('#startBtn').prop('disabled', true);
-        timer = $('<div>')
-        timer = $('#play-area').append(timer);
-        console.log();
-        // timer.attr('id', 'timer');
-        timer = setInterval(function () {
-                timerCount = 30;
-                timerCount--; 
-                console.log("wOWeeeee"); 
-            }, 1000)
+// deactivates the "START TEST" button until the timer reaches zero
+function setTime() {
+    $("#startBtn").attr("disabled", true);
+    let timerInterval = setInterval(function() {
+    secondsLeft--;
+    timerArea.text(secondsLeft);
+        if(secondsLeft === 0) {
+            clearInterval(timerInterval);
+            $("#startBtn").attr("disabled",false);
+            timerArea.text(60);
+            return;
         }
-    )
-})
-    
+    }, 1000);
+}
