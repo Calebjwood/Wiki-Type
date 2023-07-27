@@ -68,7 +68,7 @@ function showText(text) {
     }
 
 
-    textArray = text.split(' ');
+    var textArray = text.split(' ');
 
     for (var j = 0; j < textArray.length; j++){
         var wordEl = $('<div>');
