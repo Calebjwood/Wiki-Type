@@ -2,7 +2,7 @@ var paragraphEl = $('#test-paragraph')
 var currentLetter = 0;
 // array used for the div letters
 var letterArray = []
-
+var promptArray = []
 function formatText(text) {
     // removes any source link from the text such as [1] or [123]
 
@@ -92,8 +92,7 @@ function onKeyPress(event) {
     else if (currentLetter > letterArray.length) {
         currentLetter = letterArray.length
     }
-    console.log(currentLetter)
-}
+    }
 
 function init(){
 //Random fetch
@@ -155,18 +154,29 @@ $.ajax({
 		
 		// remove cite error
 		i.find('.mw-ext-cite-error').remove();
-        console.log($(i).find('p')[0]);
 		var prompt = $(i).find('p')[0].innerText 
-        console.log($(i).find('p')[0].className)
         if ($(i).find('p')[0].className === "mw-empty-elt"){
             init()
         }
-            showText(formatText(prompt));
+        console.log(prompt)
+        showText(formatText(prompt));
+            promptStack(prompt)
+            
     }
 });
 }}
 
-
+function promptStack(prompt){
+promptArray.push(prompt)
+// change num for more prompt
+    if (promptArray.length < 3){
+        init()
+    } 
+  
+    
+    
+    
+}
 
 init()
 
