@@ -66,7 +66,6 @@ function showText(text) {
             var letter = textArray[j][i] || '&nbsp;';
             
             letterEl.addClass('letter');
-    
 
             letterEl.append(letter);
             wordEl.append(letterEl);
@@ -81,13 +80,17 @@ function onKeyPress(event) {
     // need to start timer here
 
     var letter = $(letterArray[currentLetter])
+    console.log();
+
     
-
-
     letter.addClass('current');
+    
+    let correctAnswers = letter.text();
 
-    if (event.key === letter.text()){
+    if (event.key === correctAnswers){
         letter.addClass('correct')
+        console.log(correctAnswers);
+        console.log();
         $(letterArray[currentLetter+1]).addClass('current')
         currentLetter++;
         letter.removeClass('current');
@@ -113,7 +116,7 @@ function onKeyPress(event) {
     else if (currentLetter > letterArray.length) {
         currentLetter = letterArray.length
     }
-    console.log(currentLetter)
+    console.log()
 }
 
 function init(){
@@ -173,9 +176,9 @@ $.ajax({
 		
 		// remove cite error
 		i.find('.mw-ext-cite-error').remove();
-        console.log($(i).find('p')[0]);
+        // console.log($(i).find('p')[0]);
 		var prompt = $(i).find('p')[0].innerText 
-        console.log($(i).find('p')[0].className)
+        // console.log($(i).find('p')[0].className)
         if ($(i).find('p')[0].className === "mw-empty-elt"){
             init()
         }
