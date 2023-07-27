@@ -1,6 +1,4 @@
 
-
-
 function init(){
 //Random fetch
  var url = "https://en.wikipedia.org/w/api.php"; 
@@ -27,14 +25,9 @@ fetch(url)
         var promptTitle = randoms[0].title
       wikiSearch(promptTitle)
     })
-    
-   
-    
-
 
 //Search fetch
 function wikiSearch(promptTitle){
-
 
 $.ajax({
     url: url,
@@ -49,7 +42,6 @@ $.ajax({
     success: function (data) {
         // console.log(data)
  
-        
         		var markup = data.parse.text["*"];
 		var i = $('<div></div>').html(markup);
 		
@@ -61,9 +53,9 @@ $.ajax({
 		
 		// remove cite error
 		i.find('.mw-ext-cite-error').remove();
-        console.log($(i).find('p')[0]);
+        // console.log($(i).find('p')[0]);
 		var prompt = $(i).find('p')[0].innerText 
-        console.log($(i).find('p')[0].className)
+        // console.log($(i).find('p')[0].className)
         if ($(i).find('p')[0].className === "mw-empty-elt"){
             init()
         }
@@ -73,10 +65,7 @@ $.ajax({
 }}
 
 
-
 init()
-
-
 
 
 var testParagraph = `Some toilet roll holders or dispensers allow the toilet paper to hang in front of (over) or behind (under) the roll when it is placed parallel to the wall. This divides opinions about which orientation is better. Arguments range from aesthetics, hospitality, ease of access, and cleanliness, to paper conservation, ease of detaching sheets, and compatibility with pets. 
@@ -118,17 +107,17 @@ function showText(text) {
     
 
             letterEl.append(letter);
-            console.log(letterEl, letter)
+            // console.log(letterEl, letter)
             wordEl.append(letterEl);
         }
 
         paragraphEl.append(wordEl);
     }
 
-    console.log(paragraphEl)
+    // console.log(paragraphEl)
 }
-
-
 
 showText(formatText(testParagraph));
 
+
+var apiMusix = 	"bfcb58e90eb355678c80ee8f0ffc9c50";
