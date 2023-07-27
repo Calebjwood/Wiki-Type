@@ -186,7 +186,7 @@ $.ajax({
 		i.find('.mw-ext-cite-error').remove();
 
         // console.log($(i).find('p')[0]);
-		var prompt = $(i).find('p')[0].innerText 
+		var prompt = $(i).find('p')[0].innerText
         // console.log($(i).find('p')[0].className)
         if ($(i).find('p')[0].className === "mw-empty-elt"){
 
@@ -211,4 +211,58 @@ init()
 
 addEventListener('keydown', onKeyPress);
 
-var apiMusix = 	"bfcb58e90eb355678c80ee8f0ffc9c50";
+
+var apiMusix = "bfcb58e90eb355678c80ee8f0ffc9c50";
+// API MusixMatch Code
+function ApiClient(apiKey) {
+    apiNodes = [];
+    
+    var callback = function (error, data, response, method) {
+        console.log({ error, data, response, method })
+    };
+
+    var defaultClient = MusixmatchApi.ApiClient.instance;
+    var key = defaultClient.authentications['key'];
+    key.apiKey = apiMusix;
+
+    // we could use this vars for later to call data.
+    var opt;
+    var trackId, albumId, artistId;
+
+    opts = {
+        format: "jsonp", // {String} output format: json, jsonp, xml.
+        callback: "callback", // {String} jsonp callback
+        page: 1, // {number}
+        pageSize: 5,  // {number}
+        country: 'us', // {String}
+        fHasLyrics: 1 // {number}
+    };
+    (new MusixmatchApi.TrackApi()).trackSearchGet(opts, function (error, data, response) {
+        callback(error, data, response, "trackSearchGet");
+    });
+    // var trackApi = new MusixmatchApi.TrackApi();
+    // trackApi.trackSearchGet("Imagine", opts, callback);
+    
+}
+ApiClient(apiMusix);
+
+// function that get a track
+// function trackGet () {
+//     opts = {
+//         format: "jsonp", // {String} output format: json, jsonp, xml.
+//         callback: "callback", // {String} jsonp callback
+//         qArtist: "coldplay", // {String}
+//         qTrack: "viva la vida", // {String}
+//         qLyrics : "", // {String}
+//         fArtistId: 1039, // {number}
+//         fMusicGenreId: 33, // {number}
+//         sArtistRating: 'desc', // {desc|asc}
+//         sTrackRating: 'desc', // {desc|asc}
+//         fHasLyrics: 1, // {number}
+//         fLyricsLanguage: 'en', // {String}
+//     };
+//     (new MusixmatchApi.TrackApi()).trackSearchGet(opts, function (error, data, response) {
+//         callback(error, data, response, "trackSearchGet");
+//     });
+// }
+// trackGet();
