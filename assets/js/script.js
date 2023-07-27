@@ -171,7 +171,7 @@ $.ajax({
 		// remove cite error
 		i.find('.mw-ext-cite-error').remove();
         // console.log($(i).find('p')[0]);
-		var prompt = $(i).find('p')[0].innerText 
+		var prompt = $(i).find('p')[0].innerText
         // console.log($(i).find('p')[0].className)
         if ($(i).find('p')[0].className === "mw-empty-elt"){
             init()
@@ -187,3 +187,34 @@ init()
 addEventListener('keydown', onKeyPress);
 
 var apiMusix = 	"bfcb58e90eb355678c80ee8f0ffc9c50";
+
+function ApiClient(apiKey) {
+    apiNodes = [];
+    console.log(apiNodes);
+    
+    var callback = function (error, data, response, method) {
+        console.log({ error, data, response, method })
+    };
+
+    var defaultClient = MusixmatchApi.ApiClient.instance;
+    var key = defaultClient.authentications['key'];
+    key.apiKey = apiKey;
+
+    var opt;
+    var trackId, albumId, artistId;
+
+    opts = {
+        format: "jsonp", // {String} output format: json, jsonp, xml.
+        callback: "callback", // {String} jsonp callback
+        page: 1, // {number}
+        pageSize: 5,  // {number}
+        country: 'us', // {String}
+        fHasLyrics: 1 // {number}
+    };
+    console.log(response);
+}
+ApiClient(data);
+
+function trackGet () {
+
+}
