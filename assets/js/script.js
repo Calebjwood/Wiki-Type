@@ -142,9 +142,6 @@ fetch(url)
         var promptTitle = randoms[0].title
       wikiSearch(promptTitle)
     })
-    
-   
-    
 
 
 //Search fetch
