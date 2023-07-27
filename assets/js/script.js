@@ -1,3 +1,24 @@
+let timerArea = $("#timeClock");
+let theBigRedButton = $("#startBtn");
+let secondsLeft = 60;
+
+theBigRedButton.click(setTime);
+
+// deactivates the "START TEST" button until the timer reaches zero
+function setTime() {
+    $("#startBtn").attr("disabled", true);
+    let timerInterval = setInterval(function() {
+    secondsLeft--;
+    timerArea.text(secondsLeft);
+        if(secondsLeft === 0) {
+            clearInterval(timerInterval);
+            $("#startBtn").attr("disabled",false);
+            timerArea.text(60);
+            return;
+        }
+    }, 1000);
+}
+
 var paragraphEl = $('#test-paragraph')
 var currentLetter = 0;
 // array used for the div letters
@@ -85,7 +106,6 @@ function onKeyPress(event) {
         letter.removeClass('current');
     }
 
-
     if (currentLetter <= 0) {
         currentLetter = 0;
     }
@@ -93,6 +113,7 @@ function onKeyPress(event) {
         currentLetter = letterArray.length
     }
     }
+
 
 function init(){
 //Random fetch
@@ -120,14 +141,9 @@ fetch(url)
         var promptTitle = randoms[0].title
       wikiSearch(promptTitle)
     })
-    
-   
-    
-
 
 //Search fetch
 function wikiSearch(promptTitle){
-
 
 $.ajax({
     url: url,
@@ -142,7 +158,6 @@ $.ajax({
     success: function (data) {
         // console.log(data)
  
-        
         		var markup = data.parse.text["*"];
 		var i = $('<div></div>').html(markup);
 		
@@ -154,7 +169,10 @@ $.ajax({
 		
 		// remove cite error
 		i.find('.mw-ext-cite-error').remove();
+
+        // console.log($(i).find('p')[0]);
 		var prompt = $(i).find('p')[0].innerText 
+        // console.log($(i).find('p')[0].className)
         if ($(i).find('p')[0].className === "mw-empty-elt"){
             init()
         }
@@ -173,12 +191,10 @@ promptArray.push(prompt)
         init()
     } 
   
-    
-    
-    
-}
 
+}
 init()
 
 addEventListener('keydown', onKeyPress);
 
+var apiMusix = 	"bfcb58e90eb355678c80ee8f0ffc9c50";
