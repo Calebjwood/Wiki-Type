@@ -40,3 +40,36 @@ button {
   height: 2rem;
   padding: .5rem;
 }
+
+
+
+.word {
+  display: flex;
+  flex-direction: row;
+}
+
+.letter {
+  font-size: 16pt;
+}
+
+#test-paragraph {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  padding: 1rem;
+  margin: 2rem;
+  border: 3px solid black;
+}
+
+.correct {
+  color: green;
+}
+
+.wrong {
+  color: red;
+}
+
+.current {
+  padding-bottom: .5rem;
+  border-bottom: 3px solid black;
+}
