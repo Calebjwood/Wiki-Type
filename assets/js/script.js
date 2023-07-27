@@ -24,10 +24,15 @@ var currentLetter = 0;
 // array used for the div letters
 var letterArray = []
 var promptArray = []
+
 function formatText(text) {
     // removes any source link from the text such as [1] or [123]
+    if (text.length < 10){
+        return
+    };
 
-    tempText = text;
+
+    var tempText = text.trim();
 
     while (tempText.includes('[')) {
         var i = tempText.indexOf('[');
@@ -36,8 +41,8 @@ function formatText(text) {
     }
 
     //splits into array
-    textArray = tempText.split(' ')
-    finalText = ''
+    var textArray = tempText.split(' ')
+    var finalText = ''
 
 
     for (var i = 0; i < textArray.length; i++){
@@ -45,14 +50,24 @@ function formatText(text) {
         // uses a regex pattern to remove all unwanted characters
         textArray[i] = textArray[i].replace(/[^A-Za-z0-9]/g, "");
         //joins them back together with a space
-        finalText += textArray[i].toLowerCase() + " ";
+        textArray[i] = textArray[i].toLowerCase();
+        // finalText += textArray[i].toLowerCase() + " ";
     }
-
+    
+    for (var i = 0; i < textArray.length; i++) {
+        if (textArray[i]) {
+            finalText += textArray[i] + " ";
+        }
+    }
     return(finalText);
 }
 
 function showText(text) {
-    
+    if (!text) {
+        return
+    }
+
+
     textArray = text.split(' ');
 
     for (var j = 0; j < textArray.length; j++){
@@ -174,12 +189,12 @@ $.ajax({
 		var prompt = $(i).find('p')[0].innerText 
         // console.log($(i).find('p')[0].className)
         if ($(i).find('p')[0].className === "mw-empty-elt"){
+
             init()
         }
-        console.log(prompt)
+
         showText(formatText(prompt));
-            promptStack(prompt)
-            
+        promptStack(prompt)
     }
 });
 }}
@@ -190,7 +205,6 @@ promptArray.push(prompt)
     if (promptArray.length < 3){
         init()
     } 
-  
 
 }
 init()
