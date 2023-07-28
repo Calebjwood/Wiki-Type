@@ -1,6 +1,6 @@
 let timerArea = $("#timeClock");
 let theBigRedButton = $("#startBtn");
-let secondsLeft = 15;
+let secondsLeft = 60;
 
 var paragraphEl = $('#test-paragraph')
 var currentLetter = 0;
@@ -21,7 +21,7 @@ function setTime() {
         if(secondsLeft === 0) {
             clearInterval(timerInterval);
             $("#startBtn").attr("disabled",false);
-            timerArea.text(15);
+            timerArea.text(60);
             return;
         }
     }, 1000);
