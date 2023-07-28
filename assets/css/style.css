@@ -78,3 +78,7 @@ button {
   padding-bottom: .5rem;
   border-bottom: 3px solid black;
 }
+
+.postScreenButtons{
+  margin: 1rem
+}

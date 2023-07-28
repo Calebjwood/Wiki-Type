@@ -7,7 +7,7 @@ var sliderPar = $('#secondLbl');
 
 sliderPar.text('Seconds: ' + secondsLeft)
 theBigRedButton.click(setTime);
-
+var gameOverPage = $("#gameOverPage")
 // deactivates the "START TEST" button until the timer reaches zero
 function setTime() {
     secondsLeft = secondsSlider;
@@ -19,6 +19,7 @@ function setTime() {
             clearInterval(timerInterval);
             $("#startBtn").css('display', 'block');
             timerArea.text(60);
+            gameOver()
             return;
         }
     }, 1000);
@@ -136,6 +137,7 @@ function onKeyPress(event) {
 
 
 function init(){
+gameOverPage.css("display", "none")
 //Random fetch
  var url = "https://en.wikipedia.org/w/api.php"; 
 
@@ -291,3 +293,17 @@ slider.on('input', function(evt) {
 //     });
 // }
 // trackGet();
+
+
+var theGame = $("#theGame")
+var placeHolder = "placeHolder"
+ function gameOver(){
+        gameOverPage.css("background", "#5e6974")
+        paragraphEl.css("display", "none")
+        gameOverPage.css("display", "block")
+        $('#score').text("your Words per-min is " + placeHolder)
+
+       
+       
+
+}
