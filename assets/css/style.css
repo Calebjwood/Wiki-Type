@@ -13,7 +13,7 @@ body {
 main {
   /* Change or eliminate width and height however needed after materialize library */
   width: 60%;
-  height: 80vh;
+  height: 90vh;
   margin: 3rem auto;
   background: #5e6974;
   border: 3px solid black;
@@ -34,6 +34,12 @@ button {
   padding: .5rem;
 }
 
+.modal-content,
+.modal-footer a,
+.modal{
+  color: white;
+  background-color: #212121;
+}
 
 
 .word {
@@ -54,6 +60,10 @@ button {
   border: 3px solid black;
 }
 
+
+#slider {
+  width: 50%;
+}
 .correct {
   color: rgb(47, 255, 47);
 }
@@ -65,4 +75,8 @@ button {
 .current {
   padding-bottom: .5rem;
   border-bottom: 3px solid black;
+}
+
+.postScreenButtons{
+  margin: 1rem
 }
