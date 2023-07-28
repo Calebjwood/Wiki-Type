@@ -34,8 +34,6 @@ button {
   padding: .5rem;
 }
 
-
-
 .word {
   display: flex;
   flex-direction: row;
@@ -65,4 +63,9 @@ button {
 .current {
   padding-bottom: .5rem;
   border-bottom: 3px solid black;
+}
+
+.test {
+  display: inline-flex;
+  margin: 2.5rem;
 }
