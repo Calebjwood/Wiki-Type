@@ -1,18 +1,23 @@
 let timerArea = $("#timeClock");
 let theBigRedButton = $("#startBtn");
-let secondsLeft = 60;
+var secondsSlider = 60
+var secondsLeft = 60;
 
+var sliderPar = $('#secondLbl');
+
+sliderPar.text('Seconds: ' + secondsLeft)
 theBigRedButton.click(setTime);
 
 // deactivates the "START TEST" button until the timer reaches zero
 function setTime() {
-    $("#startBtn").attr("disabled", true);
+    secondsLeft = secondsSlider;
+    $("#startBtn").css("display", 'none');
     let timerInterval = setInterval(function() {
     secondsLeft--;
     timerArea.text(secondsLeft);
         if(secondsLeft === 0) {
             clearInterval(timerInterval);
-            $("#startBtn").attr("disabled",false);
+            $("#startBtn").css('display', 'block');
             timerArea.text(60);
             return;
         }
@@ -49,9 +54,7 @@ function formatText(text) {
 
         // uses a regex pattern to remove all unwanted characters
         textArray[i] = textArray[i].replace(/[^A-Za-z0-9]/g, "");
-        //joins them back together with a space
         textArray[i] = textArray[i].toLowerCase();
-        // finalText += textArray[i].toLowerCase() + " ";
     }
     
     for (var i = 0; i < textArray.length; i++) {
@@ -59,6 +62,7 @@ function formatText(text) {
             finalText += textArray[i] + " ";
         }
     }
+
     return(finalText);
 }
 
@@ -68,7 +72,7 @@ function showText(text) {
     }
 
 
-    textArray = text.split(' ');
+    var textArray = text.split(' ');
 
     for (var j = 0; j < textArray.length; j++){
         var wordEl = $('<div>');
@@ -245,6 +249,26 @@ function ApiClient(apiKey) {
     
 }
 ApiClient(apiMusix);
+
+//settings popup
+
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+  });
+       
+//setting slider event listener
+
+var slider = $('#secondRange');
+slider.val(secondsLeft)
+
+
+slider.on('input', function(evt) {
+    sliderPar.text(`Seconds: ${evt.target.value}`);
+    secondsSlider = evt.target.value;
+    timerArea.text(evt.target.value)
+})
+
 
 // function that get a track
 // function trackGet () {

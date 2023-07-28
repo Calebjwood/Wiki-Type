@@ -23,7 +23,7 @@
         <a href="#" class="brand-logo right">Wiki-Type</a>
         <ul id="nav-mobile" class="left hide-on-med-and-down">
           <li><a href="#">Highscores</a></li>
-          <li><a href="#">Settings</a></li>
+          <li><a href="#modal1" class="modal-trigger">Settings</a></li>
           <li><a href="#" id="startBtn">Start</a></li>
         </ul>
       </div>
@@ -44,6 +44,35 @@
         </div>
       </section>
       
+      <div id="modal1" class="modal">
+        <div class="modal-content grey darken-4">
+          <h4>Settings</h4>
+          <p>
+            <label>
+              <input type="checkbox" class="filled-in" checked="checked" />
+              <span>Wikipedia Articles</span>
+            </label>
+          </p>
+          <p>
+            <label>
+              <input type="checkbox" class="filled-in" checked="checked" />
+              <span>Music Lyrics</span>
+            </label>
+          </p>
+          <p id="secondLbl">Seconds: </p>
+          <div id="slider">
+            <form action="#">
+              <p class="range-field">
+                <input type="range" id="secondRange" min="30" max="180" />
+              </p>
+            </form>
+          </div>
+
+        </div>
+        <div class="modal-footer grey darken-4">
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat">Apply</a>
+        </div>
+      </div>
     </main>
     
     <footer class="page-footer grey darken-4">
