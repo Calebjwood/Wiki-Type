@@ -137,6 +137,7 @@ function onKeyPress(event) {
 
 function init(){
 gameOverPage.css("display", "none")
+paragraphEl.css("display", "flex")
 //Random fetch
  var url = "https://en.wikipedia.org/w/api.php"; 
 
@@ -301,8 +302,5 @@ var placeHolder = "placeHolder"
         paragraphEl.css("display", "none")
         gameOverPage.css("display", "block")
         $('#score').text("your Words per-min is " + placeHolder)
-
-       
-       
-
-}
+        $("#restartGame").on("click", init)
+       }
