@@ -1,9 +1,9 @@
 let timerArea = $("#timeClock");
 let theBigRedButton = $("#startBtn");
-let secondsLeft = 60;
+let secondsLeft = 2;
 
 theBigRedButton.click(setTime);
-
+var gameOverPage = $("#gameOverPage")
 // deactivates the "START TEST" button until the timer reaches zero
 function setTime() {
     $("#startBtn").attr("disabled", true);
@@ -14,6 +14,7 @@ function setTime() {
             clearInterval(timerInterval);
             $("#startBtn").attr("disabled",false);
             timerArea.text(60);
+            gameOver()
             return;
         }
     }, 1000);
@@ -131,6 +132,7 @@ function onKeyPress(event) {
 
 
 function init(){
+gameOverPage.css("display", "none")
 //Random fetch
  var url = "https://en.wikipedia.org/w/api.php"; 
 
@@ -266,3 +268,17 @@ ApiClient(apiMusix);
 //     });
 // }
 // trackGet();
+
+
+var theGame = $("#theGame")
+var placeHolder = "placeHolder"
+ function gameOver(){
+        gameOverPage.css("background", "#5e6974")
+        paragraphEl.css("display", "none")
+        gameOverPage.css("display", "block")
+        $('#score').text("your Words per-min is " + placeHolder)
+
+       
+       
+
+}
