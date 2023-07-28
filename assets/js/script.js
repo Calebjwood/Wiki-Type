@@ -63,6 +63,7 @@ function formatText(text) {
         }
     }
 
+    finalText = finalText.trim()
     return(finalText);
 }
 
