@@ -1,6 +1,6 @@
 let timerArea = $("#timeClock");
 let theBigRedButton = $("#startBtn");
-var secondsSlider = 60
+var secondsSlider = 60;
 var secondsLeft = 60;
 
 var sliderPar = $('#secondLbl');
@@ -9,6 +9,7 @@ sliderPar.text('Seconds: ' + secondsLeft)
 theBigRedButton.click(setTime);
 var gameOverPage = $("#gameOverPage")
 // deactivates the "START TEST" button until the timer reaches zero
+// Set on the game/challenge timer.
 function setTime() {
     secondsLeft = secondsSlider;
     $("#startBtn").css("display", 'none');
@@ -31,79 +32,72 @@ var currentLetter = 0;
 var letterArray = []
 var promptArray = []
 
+// Cleans the input text by removing references, non-alphanumeric characters, and converting to lowercase.
 function formatText(text) {
-    // removes any source link from the text such as [1] or [123]
-    if (text.length < 10){
-        return
-    };
+  // removes any source link from the text such as [1] or [123]
+  if (text.length < 10) {
+    return;
+  }
 
+  var tempText = text.trim();
 
-    var tempText = text.trim();
+  while (tempText.includes("[")) {
+    var i = tempText.indexOf("[");
+    var j = tempText.indexOf("]") + 1;
+    tempText = tempText.replace(tempText.substring(i, j), "");
+  }
 
-    while (tempText.includes('[')) {
-        var i = tempText.indexOf('[');
-        var j = tempText.indexOf(']') + 1;
-        tempText = tempText.replace(tempText.substring(i, j), '');
+  //splits into array
+  var textArray = tempText.split(" ");
+  var finalText = "";
+
+  for (var i = 0; i < textArray.length; i++) {
+    // uses a regex pattern to remove all unwanted characters
+    textArray[i] = textArray[i].replace(/[^A-Za-z0-9]/g, "");
+    textArray[i] = textArray[i].toLowerCase();
+  }
+
+  for (var i = 0; i < textArray.length; i++) {
+    if (textArray[i]) {
+      finalText += textArray[i] + " ";
     }
+  }
 
-    //splits into array
-    var textArray = tempText.split(' ')
-    var finalText = ''
-
-
-    for (var i = 0; i < textArray.length; i++){
-
-        // uses a regex pattern to remove all unwanted characters
-        textArray[i] = textArray[i].replace(/[^A-Za-z0-9]/g, "");
-        textArray[i] = textArray[i].toLowerCase();
-    }
-    
-    for (var i = 0; i < textArray.length; i++) {
-        if (textArray[i]) {
-            finalText += textArray[i] + " ";
-        }
-    }
-
-    return(finalText);
+  return finalText;
 }
-
+// Splits the input text into words and letters.
 function showText(text) {
-    if (!text) {
-        return
+  if (!text) {
+    return;
+  }
+
+  var textArray = text.split(" ");
+
+  for (var j = 0; j < textArray.length; j++) {
+    var wordEl = $("<div>");
+    wordEl.addClass("word");
+    // word class to be able to use flexbox
+    for (var i = 0; i <= textArray[j].length; i++) {
+      // makes a letter div and adds each letter or a space to the element
+      var letterEl = $("<div>");
+      var letter = textArray[j][i] || "&nbsp;";
+
+      letterEl.addClass("letter");
+
+      letterEl.append(letter);
+      wordEl.append(letterEl);
     }
 
-
-    var textArray = text.split(' ');
-
-    for (var j = 0; j < textArray.length; j++){
-        var wordEl = $('<div>');
-        wordEl.addClass('word');
-        // word class to be able to use flexbox
-
-        for (var i = 0; i <= textArray[j].length; i++){
-            // makes a letter div and adds each letter or a space to the element
-            var letterEl =  $('<div>');
-            var letter = textArray[j][i] || '&nbsp;';
-            
-            letterEl.addClass('letter');
-    
-
-            letterEl.append(letter);
-            wordEl.append(letterEl);
-        }
-
-        paragraphEl.append(wordEl);
-    }
-    letterArray = paragraphEl.children().children()
+    paragraphEl.append(wordEl);
+  }
+  letterArray = paragraphEl.children().children();
 }
-
+// Trigger the game and timer!?
 function onKeyPress(event) {
     // need to start timer here
 
     var letter = $(letterArray[currentLetter])
     
-
-
     letter.addClass('current');
 
     if (event.key === letter.text()){
@@ -134,7 +128,7 @@ function onKeyPress(event) {
     }
     }
 
-
+// Display a wikipedia article in the test paragraph
 function init(){
 gameOverPage.css("display", "none")
 paragraphEl.css("display", "flex")
@@ -205,7 +199,7 @@ $.ajax({
     }
 });
 }}
-
+// Calls the Init funciton based on the prompt.
 function promptStack(prompt){
 promptArray.push(prompt)
 // change num for more prompt
@@ -219,37 +213,36 @@ init()
 addEventListener('keydown', onKeyPress);
 
 
-var apiMusix = "bfcb58e90eb355678c80ee8f0ffc9c50";
 // API MusixMatch Code
+var apiMusix = "bfcb58e90eb355678c80ee8f0ffc9c50";
 function ApiClient(apiKey) {
     apiNodes = [];
-    
+
     var callback = function (error, data, response, method) {
         console.log({ error, data, response, method })
     };
 
     var defaultClient = MusixmatchApi.ApiClient.instance;
     var key = defaultClient.authentications['key'];
-    key.apiKey = apiMusix;
+    key.apiKey = "bfcb58e90eb355678c80ee8f0ffc9c50";
 
-    // we could use this vars for later to call data.
     var opt;
     var trackId, albumId, artistId;
+    
 
     opts = {
         format: "jsonp", // {String} output format: json, jsonp, xml.
         callback: "callback", // {String} jsonp callback
         page: 1, // {number}
-        pageSize: 5,  // {number}
+        pageSize: 100,  // {number}
         country: 'us', // {String}
         fHasLyrics: 1 // {number}
     };
-    (new MusixmatchApi.TrackApi()).trackSearchGet(opts, function (error, data, response) {
-        callback(error, data, response, "trackSearchGet");
-    });
-    // var trackApi = new MusixmatchApi.TrackApi();
-    // trackApi.trackSearchGet("Imagine", opts, callback);
-    
+
+    (new MusixmatchApi.TrackApi()).chartTracksGetGet(opts, (error, data, response) => {
+        callback(error, data, response, "chartTracksGetGet")
+    })
+
 }
 ApiClient(apiMusix);
 
@@ -272,29 +265,7 @@ slider.on('input', function(evt) {
     timerArea.text(evt.target.value)
 })
 
-
-// function that get a track
-// function trackGet () {
-//     opts = {
-//         format: "jsonp", // {String} output format: json, jsonp, xml.
-//         callback: "callback", // {String} jsonp callback
-//         qArtist: "coldplay", // {String}
-//         qTrack: "viva la vida", // {String}
-//         qLyrics : "", // {String}
-//         fArtistId: 1039, // {number}
-//         fMusicGenreId: 33, // {number}
-//         sArtistRating: 'desc', // {desc|asc}
-//         sTrackRating: 'desc', // {desc|asc}
-//         fHasLyrics: 1, // {number}
-//         fLyricsLanguage: 'en', // {String}
-//     };
-//     (new MusixmatchApi.TrackApi()).trackSearchGet(opts, function (error, data, response) {
-//         callback(error, data, response, "trackSearchGet");
-//     });
-// }
-// trackGet();
-
-
+// Game/timer is over shows the score and calls again the Init function to start again.
 var theGame = $("#theGame")
 var placeHolder = "placeHolder"
  function gameOver(){
