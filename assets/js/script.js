@@ -3,14 +3,24 @@ let theBigRedButton = $("#startBtn");
 var secondsSlider = 60;
 var secondsLeft = 60;
 
+var timerRunning = false;
+
 var sliderPar = $('#secondLbl');
 
 sliderPar.text('Seconds: ' + secondsLeft)
-theBigRedButton.click(setTime);
+// Begin timer when click start button.
+theBigRedButton.click(function () {
+    if (!timerRunning) {
+        setTime();
+        timerRunning = true;
+    }
+});
+
 var gameOverPage = $("#gameOverPage")
 // deactivates the "START TEST" button until the timer reaches zero
 // Set on the game/challenge timer.
 function setTime() {
+    timerRunning = true;
     secondsLeft = secondsSlider;
     $("#startBtn").css("display", 'none');
     let timerInterval = setInterval(function() {
@@ -92,9 +102,13 @@ function showText(text) {
   }
   letterArray = paragraphEl.children().children();
 }
-// Trigger the game and timer!?
+// Trigger the game and timer!
 function onKeyPress(event) {
-    // need to start timer here
+    
+    if (!timerRunning) {
+        setTime();
+        timerRunning = true;
+    }
 
     var letter = $(letterArray[currentLetter])
     
