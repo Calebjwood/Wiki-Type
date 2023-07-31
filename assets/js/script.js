@@ -18,7 +18,7 @@ function setTime() {
         if(secondsLeft === 0) {
             clearInterval(timerInterval);
             $("#startBtn").css('display', 'block');
-            timerArea.text(60);
+            timerArea.text(secondsSlider);
             gameOver()
             return;
         }
@@ -271,29 +271,6 @@ slider.on('input', function(evt) {
     secondsSlider = evt.target.value;
     timerArea.text(evt.target.value)
 })
-
-
-// function that get a track
-// function trackGet () {
-//     opts = {
-//         format: "jsonp", // {String} output format: json, jsonp, xml.
-//         callback: "callback", // {String} jsonp callback
-//         qArtist: "coldplay", // {String}
-//         qTrack: "viva la vida", // {String}
-//         qLyrics : "", // {String}
-//         fArtistId: 1039, // {number}
-//         fMusicGenreId: 33, // {number}
-//         sArtistRating: 'desc', // {desc|asc}
-//         sTrackRating: 'desc', // {desc|asc}
-//         fHasLyrics: 1, // {number}
-//         fLyricsLanguage: 'en', // {String}
-//     };
-//     (new MusixmatchApi.TrackApi()).trackSearchGet(opts, function (error, data, response) {
-//         callback(error, data, response, "trackSearchGet");
-//     });
-// }
-// trackGet();
-
 
 var theGame = $("#theGame")
 var placeHolder = "placeHolder"

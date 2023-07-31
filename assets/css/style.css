@@ -46,7 +46,6 @@ button {
 
 .word {
   display: flex;
-  flex-direction: row;
 }
 
 .letter {
