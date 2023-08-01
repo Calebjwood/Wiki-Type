@@ -9,7 +9,8 @@ let scorePlus = 0;
 var wpm = 0
 var timerRunning = false;
 var timerInterval;
-
+var gameSwitch = $("#gameSwitch")
+var siteLogo = $('#siteLogo')
 var sliderPar = $('#secondLbl');
 
 sliderPar.text('Seconds: ' + secondsLeft)
@@ -154,11 +155,12 @@ function onKeyPress(event) {
     }
 
 // Display a wikipedia article in the test paragraph
-function init(){
+function wikiApiStart(){
     gameOverPage.css("display", "none")
     highscoreEl.css('display', 'none')
     paragraphEl.css("display", "flex")
     theGame.css('display', 'block')
+    paragraphEl.html("");
 //Random fetch
  var url = "https://en.wikipedia.org/w/api.php"; 
 
@@ -218,7 +220,7 @@ function wikiSearch(promptTitle){
             // console.log($(i).find('p')[0].className)
             if ($(i).find('p')[0].className === "mw-empty-elt"){
                 
-                init()
+                wikiApiStart()
             }
             
             showText(formatText(prompt));
@@ -231,7 +233,7 @@ function promptStack(prompt){
     promptArray.push(prompt)
     // change num for more prompt
     if (promptArray.length < 3){
-        init()
+       wikiApiStart()
     } 
 }
 
@@ -241,7 +243,7 @@ addEventListener('keydown', onKeyPress);
 
 var artistNameArray = []
 lyricPrompt = ""
-var spotifykey = "c2f9fceceamshcfe108c28cc2128p1974bfjsnbc3ea4e1e329"
+var spotifykey = "831eec012dmshe433cc703128157p1c4d7ejsn9479fdf98d6b"
 
 
 
@@ -298,7 +300,11 @@ function getLyrics(trackId){
 
 
 function spotifyApi(){
- 
+    gameOverPage.css("display", "none")
+    highscoreEl.css('display', 'none')
+    paragraphEl.css("display", "flex")
+    theGame.css('display', 'block')
+    paragraphEl.html("");
 
 const settings = {
 	async: true,
@@ -346,6 +352,19 @@ checkBoxEl.on("change", function(event) {
     setMusixChecked(musixChecked);
     console.log(event.target);
 });
+
+
+gameSwitch.on("click", function(){
+    console.log()
+    
+    if(gameSwitch[0].attributes.game.textContent === "Wiki"){
+        gameSwitch[0].attributes.game.textContent = "Spotify"
+        init()
+    }else{
+        gameSwitch[0].attributes.game.textContent = "Wiki"
+        init()
+    }
+})
 
 function HighScores() {
     const savedScores = localStorage.getItem('highscore') || '[]' // get the score, or the initial value if empty
@@ -412,7 +431,7 @@ $('#clearHighscores').on('click', function() {
     HighScores()
 })
 
-var placeHolder = "placeHolder"
+
  function gameOver(){
         gameOverPage.css("background", "#5e6974")
         paragraphEl.css("display", "none")
@@ -424,10 +443,23 @@ var placeHolder = "placeHolder"
         addHighscore(wpm)
 
         clearInterval(timerInterval);
-
+        timerRunning = false
         paragraphEl.html("");
         currentLetter = 0
 
         $("#restartGame").on("click", init)
        }
-       
+
+function init(){
+    
+    console.log(gameSwitch[0].attributes.game.textContent)
+    if(gameSwitch[0].attributes.game.textContent === "Wiki"){
+        siteLogo.text("Wiki-Type")
+        wikiApiStart()
+    }
+    else if(gameSwitch[0].attributes.game.textContent === "Spotify" ){
+        siteLogo.text("Spotify-Type")
+        spotifyApi()
+    }
+}
+init()  
