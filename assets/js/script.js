@@ -179,6 +179,7 @@ var params = {
     
     url = url + "?origin=*";
     Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
+    console
     
     fetch(url)
     .then(function(response)
@@ -395,7 +396,7 @@ function HighScores() {
 
     for (var i = 0; i < highscores.length; i++){
         var j = i+1
-        rootEl.append('<p class="highscore">'+ j + ". " + highscores[i].score + " WPM")
+        rootEl.append('<p class="highscore">'+ j + ": " + highscores[i].score + " WPM")
     }
     
     $("#goBack").on("click", init)
