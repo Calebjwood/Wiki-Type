@@ -178,6 +178,7 @@ var params = {
     
     url = url + "?origin=*";
     Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
+    console
     
     fetch(url)
     .then(function(response)

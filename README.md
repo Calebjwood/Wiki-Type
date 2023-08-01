@@ -41,7 +41,8 @@ This application deploys a number of techniques, a variety of formulas, and a he
 # APIs
 We call heavily on two APIs -- Wikipedia and Spotify -- for our text content.
 
-Through Wikipedia, we get random paragraph clippings from random articles strung together.
+Through Wikipedia, we get random paragraph clippings from random articles all strung together, with an only-text property. No punctuation, no capital letters, and singly spaced.
+
 
 Through Spotify, we get random 
 
