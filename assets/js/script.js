@@ -1,14 +1,14 @@
 let timerArea = $("#timeClock");
 let theBigRedButton = $("#startBtn");
 var highscoreEl = $('#highscores');
-var highscoreBtn = $('#highscoreBtn')
 var theGame = $("#theGame");
 var secondsSlider = 60;
 var secondsLeft = 60;
 var currentLetter = 0;
 let scorePlus = 0;
-
+var wpm = 0
 var timerRunning = false;
+var timerInterval;
 
 var sliderPar = $('#secondLbl');
 
@@ -28,7 +28,7 @@ function setTime() {
     timerRunning = true;
     secondsLeft = secondsSlider;
     $("#startBtn").css("display", 'none');
-    let timerInterval = setInterval(function() {
+    timerInterval = setInterval(function() {
         secondsLeft--;
         timerArea.text(secondsLeft);
         if(secondsLeft === 0) {
@@ -110,9 +110,6 @@ function showText(text) {
     }
     letterArray = paragraphEl.children().children()
 
-//     paragraphEl.append(wordEl);
-//   }
-//   letterArray = paragraphEl.children().children();
 }
 // Trigger the game and timer!
 function onKeyPress(event) {
@@ -133,7 +130,6 @@ function onKeyPress(event) {
         letter.removeClass('current');
         //   
         scorePlus++;
-        wPm(scorePlus);
         //
     } else if (event.key === 'Backspace') {
         letter.removeClass('current correct wrong');
@@ -244,50 +240,93 @@ init()
 
 addEventListener('keydown', onKeyPress);
 
-var apiMusix = 	"bfcb58e90eb355678c80ee8f0ffc9c50";
+var artistNameArray = []
+lyricPrompt = ""
+var spotifykey = "c2f9fceceamshcfe108c28cc2128p1974bfjsnbc3ea4e1e329"
 
-function wPm (scorePlus) {
-    console.log(scorePlus);
-    if (secondsLeft === 0) {
-        localStorage.setItem("wpm", Math.floor(scorePlus / 4.7));
-        gameOver();
+
+
+function getArtistId(artistNameArray){
+  var index = Math.floor((Math.random()*artistNameArray.length))
+  var artistName = artistNameArray[index].split(" ").join("20%")
+
+const settings = {
+	async: true,
+	crossDomain: true,
+	url: 'https://spotify23.p.rapidapi.com/search/?q=' + artistName + '&type=multi&offset=0&limit=10&numberOfTopResults=5',
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': spotifykey,
+		'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
+	}
+};
+
+$.ajax(settings).done(function (response) {
+  var index = Math.floor((Math.random()*response.tracks.items.length))
+	var trackId = response.tracks.items[index].data.id;
+  
+  getLyrics(trackId)
+})};
+
+function getLyrics(trackId){
+  const settings = {
+    async: true,
+    crossDomain: true,
+    url: 'https://spotify23.p.rapidapi.com/track_lyrics/?id=' + trackId,
+    method: 'GET',
+    headers: {
+      'X-RapidAPI-Key': spotifykey,
+      'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
     }
-}
-// API MusixMatch Code
-var apiMusix = "bfcb58e90eb355678c80ee8f0ffc9c50";
-function ApiClient(apiKey) {
-    apiNodes = [];
-
-    var callback = function (error, data, response, method) {
-        console.log({ error, data, response, method })
-    };
-
-    var defaultClient = MusixmatchApi.ApiClient.instance;
-    var key = defaultClient.authentications['key'];
-    key.apiKey = apiKey;
-
-    var opt;
-    var trackId, albumId, artistId;
+  };
+  
+  $.ajax(settings).always(function (response, jqXHR) {
     
+    if (jqXHR === "error"){
+      spotifyApi()
+      return
+    }
+    var lyricsArry =  response.lyrics.lines
+        for( var i = 0;i < lyricsArry.length; i++){
+            lyricPrompt = lyricPrompt + lyricsArry[i].words
+      
+    }
+    showText(formatText(lyricPrompt))
+    console.log(lyricPrompt)
+  });
 
-    opts = {
-        format: "jsonp", // {String} output format: json, jsonp, xml.
-        callback: "callback", // {String} jsonp callback
-        page: 1, // {number}
-        pageSize: 2,  // {number}
-        country: 'us', // {String}
-        fHasLyrics: 1 // {number}
-    };
-
-    (new MusixmatchApi.TrackApi()).chartTracksGetGet(opts, (error, data, response) => {
-        callback(error, data, response, "chartTracksGetGet")
-    })
 }
-// Call the Musix API just when checked in settings
+
+
+function spotifyApi(){
+ 
+
+const settings = {
+	async: true,
+	crossDomain: true,
+	url: 'https://spotify23.p.rapidapi.com/playlist_tracks/?id=37i9dQZF1EQpjs4F0vUZ1x&offset=0&limit=5',
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': spotifykey,
+		'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
+	}
+};
+
+$.ajax(settings).done(function (response) {
+  var playlistArray = response.items
+    for(var i = 0; i < playlistArray.length; i++){
+       artistNameArray.push(playlistArray[i].track.artists[0].name)
+    }
+   
+    getArtistId(artistNameArray)
+})};
+
+
 var musixCheckBox = $("#lyricsCheckBox");
 musixCheckBox.on("change", function () {
-    if ($(this).is(":checked")) {        
-        ApiClient(apiMusix);
+    if ($(this).is(":checked")) {
+            spotifyApi()
+        ;
     } 
 } );
 // safe the musix checked event target in the local storage
@@ -317,12 +356,15 @@ function HighScores() {
     theGame.css('display', 'none')
     highscoreEl.css('display', 'flex')
 
+    $('#hsList').html('')
 
-    // clearInterval(timerInterval);
+    clearInterval(timerInterval);
+    secondsLeft = secondsSlider;
+    scorePlus = 0;
 
     for (var i = 0; i < highscores.length; i++){
         var j = i+1
-        rootEl.append('<p class="highscore">'+ j + ". " + highscores[i].score + " WPM")
+        $('#hsList').append('<p class="highscore">'+ j + ". " + highscores[i].score + " WPM")
     }
     
     $("#goBack").on("click", init)
@@ -331,8 +373,9 @@ function HighScores() {
 
 
 function addHighscore(score) {
-    evt.preventDefault()
-    //
+    if (!score) {
+        return
+    } 
     const result = {score: score};
 
     const savedScores = localStorage.getItem('highscore') || '[]' // get the score, or the initial value if empty
@@ -358,23 +401,32 @@ slider.val(secondsLeft)
 slider.on('input', function(evt) {
     sliderPar.text(`Seconds: ${evt.target.value}`);
     secondsSlider = evt.target.value;
-    timerArea.text(evt.target.value)
+    timerArea.text(evt.target.value);
 })
 
 // Game/timer is over shows the score and calls again the Init function to start again.
 
-highscoreBtn.on('click', HighScores);
+$('#highscoreBtn').on('click', HighScores);
+
+$('#clearHighscores').on('click', function() {
+    localStorage.clear();
+    HighScores()
+})
 
 var placeHolder = "placeHolder"
  function gameOver(){
         gameOverPage.css("background", "#5e6974")
         paragraphEl.css("display", "none")
         gameOverPage.css("display", "block")
+        // words per minute calculation
+        wpm = Math.floor(scorePlus / 4.7 * 60 / secondsSlider);
+        scorePlus = 0;
+        $('#score').text("your Words per-min is " + wpm)
+        addHighscore(wpm)
 
-        $('#score').text("your words-per-min score is " + localStorage.getItem("wpm"))
+        clearInterval(timerInterval);
 
         paragraphEl.html("");
-        timerRunning = false
         currentLetter = 0
 
         $("#restartGame").on("click", init)
