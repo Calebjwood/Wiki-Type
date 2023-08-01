@@ -32,6 +32,7 @@ function setTime() {
             clearInterval(timerInterval);
             $("#startBtn").css('display', 'block');
             timerArea.text(secondsSlider);
+            // timerRunning = false
             gameOver()
             return;
         }
@@ -310,6 +311,12 @@ var theGame = $("#theGame")
         gameOverPage.css("background", "#5e6974")
         paragraphEl.css("display", "none")
         gameOverPage.css("display", "block")
+
         $('#score').text("your Words per-min is " + localStorage.getItem("wpm"))
+
+        paragraphEl.html("");
+        timerRunning = false
+        currentLetter = 0
+
         $("#restartGame").on("click", init)
        }
