@@ -27,9 +27,28 @@ THEN
 WHEN 
 THEN 
 
-![The settings window customized with Materialize CSS library.](./Assets/images/settings_selectors.png)
+![The settings window customized with Materialize CSS framework.](./Assets/images/settings_selectors.png)
 
 ![A correct response renders a bright green font, while an incorrect response renders bright red.](./Assets/images/conditional_formatting.png)
 
 ![When the timer reaches zero, the words-per-minute score is displayed.](./Assets/images/words-per-minute_calculation.png)
+
+
+## Technologies Used ##
+
+This application deploys a number of techniques, a variety of formulas, and a healthy dose of the Materialize framework. 
+
+# APIs
+We call heavily on two APIs -- Wikipedia and Spotify -- for our text content.
+
+Through Wikipedia, we get random paragraph clippings from random articles strung together.
+
+Through Spotify, we get random 
+
+<!--
+More thorough SPOTIFY explanation
+-->
+
+# Materialize
+The Materialize framework played a big role in this application. Just about everything from the linear gradient behind the body of the page itself to the styling of the 'Settings' window that appears, from color inspiration to even the components included *in* said 'Settings' window, this framework was a very useful tool.
 
