@@ -282,14 +282,31 @@ function ApiClient(apiKey) {
         callback(error, data, response, "chartTracksGetGet")
     })
 }
-
+// Call the Musix API just when checked in settings
 var musixCheckBox = $("#lyricsCheckBox");
 musixCheckBox.on("change", function () {
-    if ($(this).is(":checked")) {
-        
+    if ($(this).is(":checked")) {        
         ApiClient(apiMusix);
     } 
 } );
+// safe the musix checked event target in the local storage
+function getMusixChecked () {
+    var storedMusixValue = localStorage.getItem("checked");
+    return Boolean(storedMusixValue);
+}
+function setMusixChecked (state) {
+    if (typeof state === "boolean") {
+        localStorage.setItem("checked", state);
+    }
+}
+const checkBoxEl = $("#lyricsCheckBox");
+checkBoxEl.checked = getMusixChecked();
+
+checkBoxEl.on("change", function(event) {
+    const musixChecked = event.target.checked;
+    setMusixChecked(musixChecked);
+    console.log(event.target);
+});
 
 function HighScores() {
     const savedScores = localStorage.getItem('highscore') || '[]' // get the score, or the initial value if empty
