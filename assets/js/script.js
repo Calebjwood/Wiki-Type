@@ -44,11 +44,11 @@ var promptArray = []
 
 // Cleans the input text by removing references, non-alphanumeric characters, and converting to lowercase.
 function formatText(text) {
-  // removes any source link from the text such as [1] or [123]
-  if (text.length < 10) {
-    return;
-  }
-
+    if (text.length < 10) {
+        return;
+    }
+    
+// removes any source link from the text such as [1] or [123]
   var tempText = text.trim();
 
   while (tempText.includes("[")) {
@@ -248,7 +248,7 @@ function ApiClient(apiKey) {
         format: "jsonp", // {String} output format: json, jsonp, xml.
         callback: "callback", // {String} jsonp callback
         page: 1, // {number}
-        pageSize: 100,  // {number}
+        pageSize: 2,  // {number}
         country: 'us', // {String}
         fHasLyrics: 1 // {number}
     };
