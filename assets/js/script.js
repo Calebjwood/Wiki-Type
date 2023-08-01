@@ -29,7 +29,7 @@ function setTime() {
         if(secondsLeft === 0) {
             clearInterval(timerInterval);
             $("#startBtn").css('display', 'block');
-            timerArea.text(60);
+            timerArea.text(secondsSlider);
             gameOver()
             return;
         }
@@ -73,7 +73,8 @@ function formatText(text) {
     }
   }
 
-  return finalText;
+    finalText = finalText.trim()
+    return(finalText);
 }
 // Splits the input text into words and letters.
 function showText(text) {
