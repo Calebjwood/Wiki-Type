@@ -100,28 +100,9 @@ function showText(text) {
       letterEl.append(letter);
       wordEl.append(letterEl);
     }
-    
-    
-    textArray = text.split(' ');
-    
-    for (var j = 0; j < textArray.length; j++){
-        var wordEl = $('<div>');
-        wordEl.addClass('word');
-        // word class to be able to use flexbox
-        
-        for (var i = 0; i <= textArray[j].length; i++){
-            // makes a letter div and adds each letter or a space to the element
-            var letterEl =  $('<div>');
-            var letter = textArray[j][i] || '&nbsp;';
-            
-            letterEl.addClass('letter');
-            
-            console.log();
-            letterEl.append(letter);
-            wordEl.append(letterEl);
-        }
-        
-        paragraphEl.append(wordEl);
+
+    paragraphEl.append(wordEl);
+
     }
     letterArray = paragraphEl.children().children()
 
@@ -263,6 +244,7 @@ function wPm (scorePlus) {
     if (secondsLeft === 0) {
         localStorage.setItem("wpm", Math.floor(scorePlus / 4.7));
         console.log(Math.floor(scorePlus / 4.7))
+        gameOver();
     }
 }
 // API MusixMatch Code
@@ -286,7 +268,7 @@ function ApiClient(apiKey) {
         format: "jsonp", // {String} output format: json, jsonp, xml.
         callback: "callback", // {String} jsonp callback
         page: 1, // {number}
-        pageSize: 100,  // {number}
+        pageSize: 2,  // {number}
         country: 'us', // {String}
         fHasLyrics: 1 // {number}
     };
@@ -319,11 +301,10 @@ slider.on('input', function(evt) {
 
 // Game/timer is over shows the score and calls again the Init function to start again.
 var theGame = $("#theGame")
-var placeHolder = "placeHolder"
- function gameOver(){
+ function gameOver(placeHolder){
         gameOverPage.css("background", "#5e6974")
         paragraphEl.css("display", "none")
         gameOverPage.css("display", "block")
-        $('#score').text("your Words per-min is " + placeHolder)
+        $('#score').text("your Words per-min is " + localStorage.getItem("wpm"))
         $("#restartGame").on("click", init)
-       }}
+       }
