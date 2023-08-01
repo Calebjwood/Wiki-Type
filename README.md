@@ -1,4 +1,4 @@
-# WIKI TYPE SPEED TEST APPLICATION
+# WIKI-TYPE SPEED TEST APPLICATION
 
 ![Application Layout upon Page Load](./Assets/images/overview.png)
 
@@ -39,9 +39,9 @@ THEN
 This application deploys a number of techniques, a variety of formulas, and a healthy dose of the Materialize framework. 
 
 # APIs
-We call heavily on two APIs -- Wikipedia and Spotify -- for our text content.
+We call heavily on two APIs -- Media Wiki and Spotify -- for our text content.
 
-Through Wikipedia, we get random paragraph clippings from random articles all strung together, with an only-text property. No punctuation, no capital letters, and singly spaced.
+Through Media Wiki, we get random paragraph clippings from random articles all strung together, with an only-text property. No punctuation, no capital letters, and singly spaced.
 
 
 Through Spotify, we get random 
