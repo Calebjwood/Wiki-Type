@@ -22,7 +22,7 @@
       <div class="nav-wrapper">
         <a href="#" class="brand-logo right">Wiki-Type</a>
         <ul id="nav-mobile" class="left hide-on-med-and-down">
-          <li><a href="#">Highscores</a></li>
+          <li><a href="#" id="highscoreBtn" >Highscores</a></li>
           <li><a href="#modal1" class="modal-trigger">Settings</a></li>
           <li><a href="#" id="startBtn">Start</a></li>
         </ul>
@@ -50,38 +50,41 @@
           </div>    
         </div>
       </section>
-      
-      <div id="modal1" class="modal">
-        <div class="modal-content grey darken-4">
-          <h4>Settings</h4>
-          <p>
-            <label>
-              <input type="checkbox" class="filled-in" checked="checked" />
-              <span>Wikipedia Articles</span>
-            </label>
-          </p>
-          <p>
-            <label>
-              <input type="checkbox" class="filled-in" checked="checked" id="lyricsCheckBox" />
-              <span>Music Lyrics</span>
-            </label>
-          </p>
-          <p id="secondLbl">Seconds: </p>
-          <div id="slider">
-            <form action="#">
-              <p class="range-field">
-                <input type="range" id="secondRange" min="10" max="180" />
-              </p>
-            </form>
-          </div>
-
-        </div>
-        <div class="modal-footer grey darken-4">
-          <a href="#!" class="modal-close waves-effect waves-green btn-flat">Apply</a>
-        </div>
-      </div>
+      <section id="highscores">
+        <h2>Highscores</h2>
+        <p class="highscore">1. 131 WPM</p>
+        <a href="#" id="goBack" class="btn grey darken-4 white-text postScreenButtons">Go Back</a>
+      </section>
     </main>
-    
+    <div id="modal1" class="modal">
+      <div class="modal-content grey darken-4">
+        <h4>Settings</h4>
+        <p>
+          <label>
+            <input type="checkbox" class="filled-in" checked="checked" />
+            <span>Wikipedia Articles</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input type="checkbox" class="filled-in" checked="checked" id="lyricsCheckBox" />
+            <span>Music Lyrics</span>
+          </label>
+        </p>
+        <p id="secondLbl">Seconds: </p>
+        <div id="slider">
+          <form action="#">
+            <p class="range-field">
+              <input type="range" id="secondRange" min="10" max="180" />
+            </p>
+          </form>
+        </div>
+
+      </div>
+      <div class="modal-footer grey darken-4">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Apply</a>
+      </div>
+    </div>
     <footer class="page-footer grey darken-4">
     <div class="footer-copyright">
       <div class="container">

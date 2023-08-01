@@ -1,5 +1,8 @@
 let timerArea = $("#timeClock");
 let theBigRedButton = $("#startBtn");
+var highscoreEl = $('#highscores');
+var highscoreBtn = $('#highscoreBtn')
+var theGame = $("#theGame");
 var secondsSlider = 60;
 var secondsLeft = 60;
 var currentLetter = 0;
@@ -47,11 +50,11 @@ var promptArray = []
 
 // Cleans the input text by removing references, non-alphanumeric characters, and converting to lowercase.
 function formatText(text) {
-  // removes any source link from the text such as [1] or [123]
-  if (text.length < 10) {
-    return;
-  }
-
+    if (text.length < 10) {
+        return;
+    }
+    
+// removes any source link from the text such as [1] or [123]
   var tempText = text.trim();
 
   while (tempText.includes("[")) {
@@ -156,8 +159,10 @@ function onKeyPress(event) {
 
 // Display a wikipedia article in the test paragraph
 function init(){
-gameOverPage.css("display", "none")
-paragraphEl.css("display", "flex")
+    gameOverPage.css("display", "none")
+    highscoreEl.css('display', 'none')
+    paragraphEl.css("display", "flex")
+    theGame.css('display', 'block')
 //Random fetch
  var url = "https://en.wikipedia.org/w/api.php"; 
 
@@ -286,6 +291,39 @@ musixCheckBox.on("change", function () {
     } 
 } );
 
+function HighScores() {
+    const savedScores = localStorage.getItem('highscore') || '[]' // get the score, or the initial value if empty
+    const highscores = [...JSON.parse(savedScores)]
+
+    //removes any unwanted elements from the dom and sets some styling
+    theGame.css('display', 'none')
+    highscoreEl.css('display', 'flex')
+
+
+    // clearInterval(timerInterval);
+
+    for (var i = 0; i < highscores.length; i++){
+        var j = i+1
+        rootEl.append('<p class="highscore">'+ j + ". " + highscores[i].score + " WPM")
+    }
+    
+    $("#goBack").on("click", init)
+    paragraphEl.html('')
+}
+
+
+function addHighscore(score) {
+    evt.preventDefault()
+    //
+    const result = {score: score};
+
+    const savedScores = localStorage.getItem('highscore') || '[]' // get the score, or the initial value if empty
+    // sorts and appends the new results to local storage
+    const highscores = [...JSON.parse(savedScores), result] // add the result
+    .sort((a, b) => b.score- a.score) // sort descending
+
+    localStorage.setItem('highscore', JSON.stringify(highscores))
+}
 //settings popup
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -306,7 +344,10 @@ slider.on('input', function(evt) {
 })
 
 // Game/timer is over shows the score and calls again the Init function to start again.
-var theGame = $("#theGame")
+
+highscoreBtn.on('click', HighScores);
+
+var placeHolder = "placeHolder"
  function gameOver(){
         gameOverPage.css("background", "#5e6974")
         paragraphEl.css("display", "none")
@@ -320,3 +361,4 @@ var theGame = $("#theGame")
 
         $("#restartGame").on("click", init)
        }
+       
