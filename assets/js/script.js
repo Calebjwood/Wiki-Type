@@ -32,6 +32,7 @@ function setTime() {
             clearInterval(timerInterval);
             $("#startBtn").css('display', 'block');
             timerArea.text(secondsSlider);
+            // timerRunning = false
             gameOver()
             return;
         }
@@ -243,7 +244,6 @@ function wPm (scorePlus) {
     console.log(scorePlus);
     if (secondsLeft === 0) {
         localStorage.setItem("wpm", Math.floor(scorePlus / 4.7));
-        console.log(Math.floor(scorePlus / 4.7))
         gameOver();
     }
 }
@@ -307,10 +307,16 @@ slider.on('input', function(evt) {
 
 // Game/timer is over shows the score and calls again the Init function to start again.
 var theGame = $("#theGame")
- function gameOver(placeHolder){
+ function gameOver(){
         gameOverPage.css("background", "#5e6974")
         paragraphEl.css("display", "none")
         gameOverPage.css("display", "block")
+
         $('#score').text("your Words per-min is " + localStorage.getItem("wpm"))
+
+        paragraphEl.html("");
+        timerRunning = false
+        currentLetter = 0
+
         $("#restartGame").on("click", init)
        }
