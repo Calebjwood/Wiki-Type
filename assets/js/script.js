@@ -5,6 +5,8 @@ var highscoreBtn = $('#highscoreBtn')
 var theGame = $("#theGame");
 var secondsSlider = 60;
 var secondsLeft = 60;
+var currentLetter = 0;
+let scorePlus = 0;
 
 var timerRunning = false;
 
@@ -27,12 +29,13 @@ function setTime() {
     secondsLeft = secondsSlider;
     $("#startBtn").css("display", 'none');
     let timerInterval = setInterval(function() {
-    secondsLeft--;
-    timerArea.text(secondsLeft);
+        secondsLeft--;
+        timerArea.text(secondsLeft);
         if(secondsLeft === 0) {
             clearInterval(timerInterval);
             $("#startBtn").css('display', 'block');
             timerArea.text(secondsSlider);
+            // timerRunning = false
             gameOver()
             return;
         }
@@ -103,8 +106,13 @@ function showText(text) {
     }
 
     paragraphEl.append(wordEl);
-  }
-  letterArray = paragraphEl.children().children();
+
+    }
+    letterArray = paragraphEl.children().children()
+
+//     paragraphEl.append(wordEl);
+//   }
+//   letterArray = paragraphEl.children().children();
 }
 // Trigger the game and timer!
 function onKeyPress(event) {
@@ -117,14 +125,17 @@ function onKeyPress(event) {
     var letter = $(letterArray[currentLetter])
     
     letter.addClass('current');
-
+    
     if (event.key === letter.text()){
         letter.addClass('correct')
         $(letterArray[currentLetter+1]).addClass('current')
         currentLetter++;
         letter.removeClass('current');
-    }
-    else if (event.key === 'Backspace') {
+        //   
+        scorePlus++;
+        wPm(scorePlus);
+        //
+    } else if (event.key === 'Backspace') {
         letter.removeClass('current correct wrong');
         currentLetter--;
         letter = $(letterArray[currentLetter]);
@@ -137,7 +148,7 @@ function onKeyPress(event) {
         currentLetter++;
         letter.removeClass('current');
     }
-
+    
     if (currentLetter <= 0) {
         currentLetter = 0;
     }
@@ -156,83 +167,91 @@ function init(){
  var url = "https://en.wikipedia.org/w/api.php"; 
 
 var params = {
+          
+        action: "query",
+        format: "json",
+        list: "random",
+        rnnamespace: '0',
+        rnlimit: "1"
+    }
     
-    action: "query",
-    format: "json",
-    list: "random",
-    rnnamespace: '0',
-    rnlimit: "1"
-};
-
-
-url = url + "?origin=*";
-Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
-
-fetch(url)
+    
+    url = url + "?origin=*";
+    Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
+    
+    fetch(url)
     .then(function(response)
     {return response.json();})
     .then(function(response) {
         var randoms = response.query.random;
         // console.log(randoms)
         var promptTitle = randoms[0].title
-      wikiSearch(promptTitle)
+        wikiSearch(promptTitle)
     })
 
 //Search fetch
 function wikiSearch(promptTitle){
-
-$.ajax({
-    url: url,
-    data: {
-        format: "json",
-        action: "parse",
-        page: promptTitle,
-        prop:"text",
-        section:0,
-    },
-   
-    success: function (data) {
-        // console.log(data)
- 
-        		var markup = data.parse.text["*"];
-		var i = $('<div></div>').html(markup);
-		
-		// remove links as they will not work
-		i.find('a').each(function() { $(this).replaceWith($(this).html()); });
-		
-		// remove any references
-		i.find('sup').remove();
-		
-		// remove cite error
-		i.find('.mw-ext-cite-error').remove();
-
-        // console.log($(i).find('p')[0]);
-		var prompt = $(i).find('p')[0].innerText
-        // console.log($(i).find('p')[0].className)
-        if ($(i).find('p')[0].className === "mw-empty-elt"){
-
-            init()
+    
+    $.ajax({
+        url: url,
+        data: {
+            format: "json",
+            action: "parse",
+            page: promptTitle,
+            prop:"text",
+            section:0,
+        },
+        
+        success: function (data) {
+            // console.log(data)
+            
+            var markup = data.parse.text["*"];
+            var i = $('<div></div>').html(markup);
+            
+            // remove links as they will not work
+            i.find('a').each(function() { $(this).replaceWith($(this).html()); });
+            
+            // remove any references
+            i.find('sup').remove();
+            
+            // remove cite error
+            i.find('.mw-ext-cite-error').remove();
+            
+            // console.log($(i).find('p')[0]);
+            var prompt = $(i).find('p')[0].innerText 
+            // console.log($(i).find('p')[0].className)
+            if ($(i).find('p')[0].className === "mw-empty-elt"){
+                
+                init()
+            }
+            
+            showText(formatText(prompt));
+            promptStack(prompt)
         }
-
-        showText(formatText(prompt));
-        promptStack(prompt)
-    }
-});
+    });
 }}
 // Calls the Init funciton based on the prompt.
 function promptStack(prompt){
-promptArray.push(prompt)
-// change num for more prompt
+    promptArray.push(prompt)
+    // change num for more prompt
     if (promptArray.length < 3){
         init()
     } 
-
 }
+
 init()
 
 addEventListener('keydown', onKeyPress);
 
+var apiMusix = 	"bfcb58e90eb355678c80ee8f0ffc9c50";
 
+function wPm (scorePlus) {
+    console.log(scorePlus);
+    if (secondsLeft === 0) {
+        localStorage.setItem("wpm", Math.floor(scorePlus / 4.7));
+        gameOver();
+    }
+}
 // API MusixMatch Code
 var apiMusix = "bfcb58e90eb355678c80ee8f0ffc9c50";
 function ApiClient(apiKey) {
@@ -244,7 +263,7 @@ function ApiClient(apiKey) {
 
     var defaultClient = MusixmatchApi.ApiClient.instance;
     var key = defaultClient.authentications['key'];
-    key.apiKey = "bfcb58e90eb355678c80ee8f0ffc9c50";
+    key.apiKey = apiKey;
 
     var opt;
     var trackId, albumId, artistId;
@@ -262,9 +281,15 @@ function ApiClient(apiKey) {
     (new MusixmatchApi.TrackApi()).chartTracksGetGet(opts, (error, data, response) => {
         callback(error, data, response, "chartTracksGetGet")
     })
-
 }
-ApiClient(apiMusix);
+
+var musixCheckBox = $("#lyricsCheckBox");
+musixCheckBox.on("change", function () {
+    if ($(this).is(":checked")) {
+        
+        ApiClient(apiMusix);
+    } 
+} );
 
 function HighScores() {
     const savedScores = localStorage.getItem('highscore') || '[]' // get the score, or the initial value if empty
@@ -327,7 +352,13 @@ var placeHolder = "placeHolder"
         gameOverPage.css("background", "#5e6974")
         paragraphEl.css("display", "none")
         gameOverPage.css("display", "block")
-        $('#score').text("your Words per-min is " + placeHolder)
+
+        $('#score').text("your Words per-min is " + localStorage.getItem("wpm"))
+
+        paragraphEl.html("");
+        timerRunning = false
+        currentLetter = 0
+
         $("#restartGame").on("click", init)
        }
        
