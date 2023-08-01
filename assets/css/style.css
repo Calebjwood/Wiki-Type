@@ -65,6 +65,14 @@ button {
 #slider {
   width: 50%;
 }
+
+#highscores {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .correct {
   color: rgb(47, 255, 47);
 }
@@ -80,4 +88,13 @@ button {
 
 .postScreenButtons{
   margin: 1rem
+}
+
+.highscore {
+  background-color: #212121;
+  color: white;
+  width: 30%;
+  padding-left: 1rem;
+  margin-bottom: 0.5rem;
+
 }
