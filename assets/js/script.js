@@ -243,7 +243,7 @@ init()
 
 addEventListener('keydown', onKeyPress);
 
-var apiMusix = 	"bfcb58e90eb355678c80ee8f0ffc9c50";
+
 
 function wPm (scorePlus) {
     console.log(scorePlus);
@@ -252,41 +252,94 @@ function wPm (scorePlus) {
         gameOver();
     }
 }
-// API MusixMatch Code
-var apiMusix = "bfcb58e90eb355678c80ee8f0ffc9c50";
-function ApiClient(apiKey) {
-    apiNodes = [];
 
-    var callback = function (error, data, response, method) {
-        console.log({ error, data, response, method })
-    };
+var artistNameArray = []
+lyricPrompt = ""
+var spotifykey = "c2f9fceceamshcfe108c28cc2128p1974bfjsnbc3ea4e1e329"
 
-    var defaultClient = MusixmatchApi.ApiClient.instance;
-    var key = defaultClient.authentications['key'];
-    key.apiKey = apiKey;
 
-    var opt;
-    var trackId, albumId, artistId;
+
+function getArtistId(artistNameArray){
+  var index = Math.floor((Math.random()*artistNameArray.length))
+  var artistName = artistNameArray[index].split(" ").join("20%")
+
+const settings = {
+	async: true,
+	crossDomain: true,
+	url: 'https://spotify23.p.rapidapi.com/search/?q=' + artistName + '&type=multi&offset=0&limit=10&numberOfTopResults=5',
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': spotifykey,
+		'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
+	}
+};
+
+$.ajax(settings).done(function (response) {
+  var index = Math.floor((Math.random()*response.tracks.items.length))
+	var trackId = response.tracks.items[index].data.id;
+  
+  getLyrics(trackId)
+})};
+
+function getLyrics(trackId){
+  const settings = {
+    async: true,
+    crossDomain: true,
+    url: 'https://spotify23.p.rapidapi.com/track_lyrics/?id=' + trackId,
+    method: 'GET',
+    headers: {
+      'X-RapidAPI-Key': spotifykey,
+      'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
+    }
+  };
+  
+  $.ajax(settings).always(function (response, jqXHR) {
     
+    if (jqXHR === "error"){
+      spotifyApi()
+      return
+    }
+    var lyricsArry =  response.lyrics.lines
+        for( var i = 0;i < lyricsArry.length; i++){
+            lyricPrompt = lyricPrompt + lyricsArry[i].words
+      
+    }
+    showText(formatText(lyricPrompt))
+    console.log(lyricPrompt)
+  });
 
-    opts = {
-        format: "jsonp", // {String} output format: json, jsonp, xml.
-        callback: "callback", // {String} jsonp callback
-        page: 1, // {number}
-        pageSize: 2,  // {number}
-        country: 'us', // {String}
-        fHasLyrics: 1 // {number}
-    };
-
-    (new MusixmatchApi.TrackApi()).chartTracksGetGet(opts, (error, data, response) => {
-        callback(error, data, response, "chartTracksGetGet")
-    })
 }
-// Call the Musix API just when checked in settings
+
+
+function spotifyApi(){
+ 
+
+const settings = {
+	async: true,
+	crossDomain: true,
+	url: 'https://spotify23.p.rapidapi.com/playlist_tracks/?id=37i9dQZF1EQpjs4F0vUZ1x&offset=0&limit=5',
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': spotifykey,
+		'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
+	}
+};
+
+$.ajax(settings).done(function (response) {
+  var playlistArray = response.items
+    for(var i = 0; i < playlistArray.length; i++){
+       artistNameArray.push(playlistArray[i].track.artists[0].name)
+    }
+   
+    getArtistId(artistNameArray)
+})};
+
+
 var musixCheckBox = $("#lyricsCheckBox");
 musixCheckBox.on("change", function () {
-    if ($(this).is(":checked")) {        
-        ApiClient(apiMusix);
+    if ($(this).is(":checked")) {
+            spotifyApi()
+        ;
     } 
 } );
 // safe the musix checked event target in the local storage
