@@ -1,7 +1,12 @@
 let timerArea = $("#timeClock");
 let theBigRedButton = $("#startBtn");
+var highscoreEl = $('#highscores');
+var highscoreBtn = $('#highscoreBtn')
+var theGame = $("#theGame");
 var secondsSlider = 60;
 var secondsLeft = 60;
+var currentLetter = 0;
+let scorePlus = 0;
 
 var timerRunning = false;
 
@@ -24,12 +29,13 @@ function setTime() {
     secondsLeft = secondsSlider;
     $("#startBtn").css("display", 'none');
     let timerInterval = setInterval(function() {
-    secondsLeft--;
-    timerArea.text(secondsLeft);
+        secondsLeft--;
+        timerArea.text(secondsLeft);
         if(secondsLeft === 0) {
             clearInterval(timerInterval);
             $("#startBtn").css('display', 'block');
-            timerArea.text(60);
+            timerArea.text(secondsSlider);
+            // timerRunning = false
             gameOver()
             return;
         }
@@ -44,11 +50,11 @@ var promptArray = []
 
 // Cleans the input text by removing references, non-alphanumeric characters, and converting to lowercase.
 function formatText(text) {
-  // removes any source link from the text such as [1] or [123]
-  if (text.length < 10) {
-    return;
-  }
-
+    if (text.length < 10) {
+        return;
+    }
+    
+// removes any source link from the text such as [1] or [123]
   var tempText = text.trim();
 
   while (tempText.includes("[")) {
@@ -73,7 +79,8 @@ function formatText(text) {
     }
   }
 
-  return finalText;
+    finalText = finalText.trim()
+    return(finalText);
 }
 // Splits the input text into words and letters.
 function showText(text) {
@@ -99,8 +106,13 @@ function showText(text) {
     }
 
     paragraphEl.append(wordEl);
-  }
-  letterArray = paragraphEl.children().children();
+
+    }
+    letterArray = paragraphEl.children().children()
+
+//     paragraphEl.append(wordEl);
+//   }
+//   letterArray = paragraphEl.children().children();
 }
 // Trigger the game and timer!
 function onKeyPress(event) {
@@ -113,14 +125,17 @@ function onKeyPress(event) {
     var letter = $(letterArray[currentLetter])
     
     letter.addClass('current');
-
+    
     if (event.key === letter.text()){
         letter.addClass('correct')
         $(letterArray[currentLetter+1]).addClass('current')
         currentLetter++;
         letter.removeClass('current');
-    }
-    else if (event.key === 'Backspace') {
+        //   
+        scorePlus++;
+        wPm(scorePlus);
+        //
+    } else if (event.key === 'Backspace') {
         letter.removeClass('current correct wrong');
         currentLetter--;
         letter = $(letterArray[currentLetter]);
@@ -133,7 +148,7 @@ function onKeyPress(event) {
         currentLetter++;
         letter.removeClass('current');
     }
-
+    
     if (currentLetter <= 0) {
         currentLetter = 0;
     }
@@ -144,89 +159,99 @@ function onKeyPress(event) {
 
 // Display a wikipedia article in the test paragraph
 function init(){
-gameOverPage.css("display", "none")
-paragraphEl.css("display", "flex")
+    gameOverPage.css("display", "none")
+    highscoreEl.css('display', 'none')
+    paragraphEl.css("display", "flex")
+    theGame.css('display', 'block')
 //Random fetch
  var url = "https://en.wikipedia.org/w/api.php"; 
 
 var params = {
+          
+        action: "query",
+        format: "json",
+        list: "random",
+        rnnamespace: '0',
+        rnlimit: "1"
+    }
     
-    action: "query",
-    format: "json",
-    list: "random",
-    rnnamespace: '0',
-    rnlimit: "1"
-};
-
-
-url = url + "?origin=*";
-Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
-
-fetch(url)
+    
+    url = url + "?origin=*";
+    Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
+    
+    fetch(url)
     .then(function(response)
     {return response.json();})
     .then(function(response) {
         var randoms = response.query.random;
         // console.log(randoms)
         var promptTitle = randoms[0].title
-      wikiSearch(promptTitle)
+        wikiSearch(promptTitle)
     })
 
 //Search fetch
 function wikiSearch(promptTitle){
-
-$.ajax({
-    url: url,
-    data: {
-        format: "json",
-        action: "parse",
-        page: promptTitle,
-        prop:"text",
-        section:0,
-    },
-   
-    success: function (data) {
-        // console.log(data)
- 
-        		var markup = data.parse.text["*"];
-		var i = $('<div></div>').html(markup);
-		
-		// remove links as they will not work
-		i.find('a').each(function() { $(this).replaceWith($(this).html()); });
-		
-		// remove any references
-		i.find('sup').remove();
-		
-		// remove cite error
-		i.find('.mw-ext-cite-error').remove();
-
-        // console.log($(i).find('p')[0]);
-		var prompt = $(i).find('p')[0].innerText
-        // console.log($(i).find('p')[0].className)
-        if ($(i).find('p')[0].className === "mw-empty-elt"){
-
-            init()
+    
+    $.ajax({
+        url: url,
+        data: {
+            format: "json",
+            action: "parse",
+            page: promptTitle,
+            prop:"text",
+            section:0,
+        },
+        
+        success: function (data) {
+            // console.log(data)
+            
+            var markup = data.parse.text["*"];
+            var i = $('<div></div>').html(markup);
+            
+            // remove links as they will not work
+            i.find('a').each(function() { $(this).replaceWith($(this).html()); });
+            
+            // remove any references
+            i.find('sup').remove();
+            
+            // remove cite error
+            i.find('.mw-ext-cite-error').remove();
+            
+            // console.log($(i).find('p')[0]);
+            var prompt = $(i).find('p')[0].innerText 
+            // console.log($(i).find('p')[0].className)
+            if ($(i).find('p')[0].className === "mw-empty-elt"){
+                
+                init()
+            }
+            
+            showText(formatText(prompt));
+            promptStack(prompt)
         }
-
-        showText(formatText(prompt));
-        promptStack(prompt)
-    }
-});
+    });
 }}
 // Calls the Init funciton based on the prompt.
 function promptStack(prompt){
-promptArray.push(prompt)
-// change num for more prompt
+    promptArray.push(prompt)
+    // change num for more prompt
     if (promptArray.length < 3){
         init()
     } 
-
 }
+
 init()
 
 addEventListener('keydown', onKeyPress);
 
+var apiMusix = 	"bfcb58e90eb355678c80ee8f0ffc9c50";
 
+function wPm (scorePlus) {
+    console.log(scorePlus);
+    if (secondsLeft === 0) {
+        localStorage.setItem("wpm", Math.floor(scorePlus / 4.7));
+        gameOver();
+    }
+}
 // API MusixMatch Code
 var apiMusix = "bfcb58e90eb355678c80ee8f0ffc9c50";
 function ApiClient(apiKey) {
@@ -283,6 +308,39 @@ checkBoxEl.on("change", function(event) {
     console.log(event.target);
 });
 
+function HighScores() {
+    const savedScores = localStorage.getItem('highscore') || '[]' // get the score, or the initial value if empty
+    const highscores = [...JSON.parse(savedScores)]
+
+    //removes any unwanted elements from the dom and sets some styling
+    theGame.css('display', 'none')
+    highscoreEl.css('display', 'flex')
+
+
+    // clearInterval(timerInterval);
+
+    for (var i = 0; i < highscores.length; i++){
+        var j = i+1
+        rootEl.append('<p class="highscore">'+ j + ". " + highscores[i].score + " WPM")
+    }
+    
+    $("#goBack").on("click", init)
+    paragraphEl.html('')
+}
+
+
+function addHighscore(score) {
+    evt.preventDefault()
+    //
+    const result = {score: score};
+
+    const savedScores = localStorage.getItem('highscore') || '[]' // get the score, or the initial value if empty
+    // sorts and appends the new results to local storage
+    const highscores = [...JSON.parse(savedScores), result] // add the result
+    .sort((a, b) => b.score- a.score) // sort descending
+
+    localStorage.setItem('highscore', JSON.stringify(highscores))
+}
 //settings popup
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -303,12 +361,21 @@ slider.on('input', function(evt) {
 })
 
 // Game/timer is over shows the score and calls again the Init function to start again.
-var theGame = $("#theGame")
+
+highscoreBtn.on('click', HighScores);
+
 var placeHolder = "placeHolder"
  function gameOver(){
         gameOverPage.css("background", "#5e6974")
         paragraphEl.css("display", "none")
         gameOverPage.css("display", "block")
-        $('#score').text("your Words per-min is " + placeHolder)
+
+        $('#score').text("your Words per-min is " + localStorage.getItem("wpm"))
+
+        paragraphEl.html("");
+        timerRunning = false
+        currentLetter = 0
+
         $("#restartGame").on("click", init)
        }
+       

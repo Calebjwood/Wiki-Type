@@ -5,14 +5,17 @@
 }
 
 body {
-  /* no need to add flex or grid since materialize already prodive fluid respondive grid */
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
   background: linear-gradient(0deg, rgb(171, 193, 207) 0%, rgb(125, 143, 151) 63%);
 }
 
 
 main {
+  /* Change or eliminate width and height however needed after materialize library */
+  flex: 1 0 auto;
   width: 60%;
-  height: 90vh;
   margin: 3rem auto;
   background: #5e6974;
   border: 3px solid black;
@@ -43,7 +46,6 @@ button {
 
 .word {
   display: flex;
-  flex-direction: row;
 }
 
 .letter {
@@ -63,6 +65,14 @@ button {
 #slider {
   width: 50%;
 }
+
+#highscores {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .correct {
   color: rgb(47, 255, 47);
 }
@@ -78,4 +88,13 @@ button {
 
 .postScreenButtons{
   margin: 1rem
+}
+
+.highscore {
+  background-color: #212121;
+  color: white;
+  width: 30%;
+  padding-left: 1rem;
+  margin-bottom: 0.5rem;
+
 }
