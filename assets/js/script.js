@@ -258,7 +258,7 @@ function ApiClient(apiKey) {
 
     var defaultClient = MusixmatchApi.ApiClient.instance;
     var key = defaultClient.authentications['key'];
-    key.apiKey = "bfcb58e90eb355678c80ee8f0ffc9c50";
+    key.apiKey = apiKey;
 
     var opt;
     var trackId, albumId, artistId;
@@ -276,9 +276,15 @@ function ApiClient(apiKey) {
     (new MusixmatchApi.TrackApi()).chartTracksGetGet(opts, (error, data, response) => {
         callback(error, data, response, "chartTracksGetGet")
     })
-
 }
-ApiClient(apiMusix);
+
+var musixCheckBox = $("#lyricsCheckBox");
+musixCheckBox.on("change", function () {
+    if ($(this).is(":checked")) {
+        
+        ApiClient(apiMusix);
+    } 
+} );
 
 //settings popup
 
