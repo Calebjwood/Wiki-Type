@@ -1,14 +1,14 @@
 let timerArea = $("#timeClock");
 let theBigRedButton = $("#startBtn");
 var highscoreEl = $('#highscores');
-var highscoreBtn = $('#highscoreBtn')
 var theGame = $("#theGame");
 var secondsSlider = 60;
 var secondsLeft = 60;
 var currentLetter = 0;
 let scorePlus = 0;
-
+var wpm = 0
 var timerRunning = false;
+var timerInterval;
 
 var sliderPar = $('#secondLbl');
 
@@ -28,7 +28,7 @@ function setTime() {
     timerRunning = true;
     secondsLeft = secondsSlider;
     $("#startBtn").css("display", 'none');
-    let timerInterval = setInterval(function() {
+    timerInterval = setInterval(function() {
         secondsLeft--;
         timerArea.text(secondsLeft);
         if(secondsLeft === 0) {
@@ -110,9 +110,6 @@ function showText(text) {
     }
     letterArray = paragraphEl.children().children()
 
-//     paragraphEl.append(wordEl);
-//   }
-//   letterArray = paragraphEl.children().children();
 }
 // Trigger the game and timer!
 function onKeyPress(event) {
@@ -133,7 +130,6 @@ function onKeyPress(event) {
         letter.removeClass('current');
         //   
         scorePlus++;
-        wPm(scorePlus);
         //
     } else if (event.key === 'Backspace') {
         letter.removeClass('current correct wrong');
@@ -245,13 +241,7 @@ addEventListener('keydown', onKeyPress);
 
 var apiMusix = 	"bfcb58e90eb355678c80ee8f0ffc9c50";
 
-function wPm (scorePlus) {
-    console.log(scorePlus);
-    if (secondsLeft === 0) {
-        localStorage.setItem("wpm", Math.floor(scorePlus / 4.7));
-        gameOver();
-    }
-}
+
 // API MusixMatch Code
 var apiMusix = "bfcb58e90eb355678c80ee8f0ffc9c50";
 function ApiClient(apiKey) {
@@ -299,12 +289,15 @@ function HighScores() {
     theGame.css('display', 'none')
     highscoreEl.css('display', 'flex')
 
+    $('#hsList').html('')
 
-    // clearInterval(timerInterval);
+    clearInterval(timerInterval);
+    secondsLeft = secondsSlider;
+    scorePlus = 0;
 
     for (var i = 0; i < highscores.length; i++){
         var j = i+1
-        rootEl.append('<p class="highscore">'+ j + ". " + highscores[i].score + " WPM")
+        $('#hsList').append('<p class="highscore">'+ j + ". " + highscores[i].score + " WPM")
     }
     
     $("#goBack").on("click", init)
@@ -313,8 +306,9 @@ function HighScores() {
 
 
 function addHighscore(score) {
-    evt.preventDefault()
-    //
+    if (!score) {
+        return
+    } 
     const result = {score: score};
 
     const savedScores = localStorage.getItem('highscore') || '[]' // get the score, or the initial value if empty
@@ -340,23 +334,32 @@ slider.val(secondsLeft)
 slider.on('input', function(evt) {
     sliderPar.text(`Seconds: ${evt.target.value}`);
     secondsSlider = evt.target.value;
-    timerArea.text(evt.target.value)
+    timerArea.text(evt.target.value);
 })
 
 // Game/timer is over shows the score and calls again the Init function to start again.
 
-highscoreBtn.on('click', HighScores);
+$('#highscoreBtn').on('click', HighScores);
+
+$('#clearHighscores').on('click', function() {
+    localStorage.clear();
+    HighScores()
+})
 
 var placeHolder = "placeHolder"
  function gameOver(){
         gameOverPage.css("background", "#5e6974")
         paragraphEl.css("display", "none")
         gameOverPage.css("display", "block")
+        // words per minute calculation
+        wpm = Math.floor(scorePlus / 4.7 * 60 / secondsSlider);
+        scorePlus = 0;
+        $('#score').text("your Words per-min is " + wpm)
+        addHighscore(wpm)
 
-        $('#score').text("your Words per-min is " + localStorage.getItem("wpm"))
+        clearInterval(timerInterval);
 
         paragraphEl.html("");
-        timerRunning = false
         currentLetter = 0
 
         $("#restartGame").on("click", init)

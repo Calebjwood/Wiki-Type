@@ -40,8 +40,8 @@
           <div id="gameOverPage">
               <h2>Game Over</h2>
               <h3 id="score"></h3>
-              <ul >
-                <li><a href="#" class="btn grey darken-4 white-text postScreenButtons">Highscores</a></li>
+              <ul>
+                <li><a href="#" id="highscoreBtn" class="btn grey darken-4 white-text postScreenButtons">Highscores</a></li>
                 <li><a href="#" id="restartGame" class="btn grey darken-4 white-text postScreenButtons">Try Again</a></li>
               </ul>
           </div>
@@ -52,8 +52,13 @@
       </section>
       <section id="highscores">
         <h2>Highscores</h2>
-        <p class="highscore">1. 131 WPM</p>
-        <a href="#" id="goBack" class="btn grey darken-4 white-text postScreenButtons">Go Back</a>
+        <div id="hsList">
+        </div>
+        <div>
+          <a href="#" id="goBack" class="btn grey darken-4 white-text postScreenButtons">Go Back</a>
+          <a href="#" id="clearHighscores" class="btn grey darken-4 white-text postScreenButtons">Clear Highscores</a>
+        </div>
+
       </section>
     </main>
     <div id="modal1" class="modal">
