@@ -1,15 +1,15 @@
 let timerArea = $("#timeClock");
 let theBigRedButton = $("#startBtn");
 var highscoreEl = $('#highscores');
+var highscoreBtn = $('#highscoreBtn')
 var theGame = $("#theGame");
 var secondsSlider = 60;
 var secondsLeft = 60;
 var currentLetter = 0;
 let scorePlus = 0;
-var wpm = 0
+var gameSwitch = $("#gameSwitch")
 var timerRunning = false;
-var timerInterval;
-
+var siteLogo = $('#siteLogo')
 var sliderPar = $('#secondLbl');
 
 sliderPar.text('Seconds: ' + secondsLeft)
@@ -28,7 +28,7 @@ function setTime() {
     timerRunning = true;
     secondsLeft = secondsSlider;
     $("#startBtn").css("display", 'none');
-    timerInterval = setInterval(function() {
+    let timerInterval = setInterval(function() {
         secondsLeft--;
         timerArea.text(secondsLeft);
         if(secondsLeft === 0) {
@@ -110,6 +110,9 @@ function showText(text) {
     }
     letterArray = paragraphEl.children().children()
 
+//     paragraphEl.append(wordEl);
+//   }
+//   letterArray = paragraphEl.children().children();
 }
 // Trigger the game and timer!
 function onKeyPress(event) {
@@ -130,6 +133,7 @@ function onKeyPress(event) {
         letter.removeClass('current');
         //   
         scorePlus++;
+        wPm(scorePlus);
         //
     } else if (event.key === 'Backspace') {
         letter.removeClass('current correct wrong');
@@ -154,11 +158,12 @@ function onKeyPress(event) {
     }
 
 // Display a wikipedia article in the test paragraph
-function init(){
+function wikiApiStart(){
     gameOverPage.css("display", "none")
     highscoreEl.css('display', 'none')
     paragraphEl.css("display", "flex")
     theGame.css('display', 'block')
+    paragraphEl.html("");
 //Random fetch
  var url = "https://en.wikipedia.org/w/api.php"; 
 
@@ -218,7 +223,7 @@ function wikiSearch(promptTitle){
             // console.log($(i).find('p')[0].className)
             if ($(i).find('p')[0].className === "mw-empty-elt"){
                 
-                init()
+                wikiApiStart()
             }
             
             showText(formatText(prompt));
@@ -231,17 +236,27 @@ function promptStack(prompt){
     promptArray.push(prompt)
     // change num for more prompt
     if (promptArray.length < 3){
-        init()
+        wikiApiStart()
     } 
 }
 
-init()
+
 
 addEventListener('keydown', onKeyPress);
 
+
+
+function wPm (scorePlus) {
+    console.log(scorePlus);
+    if (secondsLeft === 0) {
+        localStorage.setItem("wpm", Math.floor(scorePlus / 4.7));
+        gameOver();
+    }
+}
+
 var artistNameArray = []
 lyricPrompt = ""
-var spotifykey = "c2f9fceceamshcfe108c28cc2128p1974bfjsnbc3ea4e1e329"
+var spotifykey = "831eec012dmshe433cc703128157p1c4d7ejsn9479fdf98d6b"
 
 
 
@@ -298,7 +313,11 @@ function getLyrics(trackId){
 
 
 function spotifyApi(){
- 
+    gameOverPage.css("display", "none")
+    highscoreEl.css('display', 'none')
+    paragraphEl.css("display", "flex")
+    theGame.css('display', 'block')
+    paragraphEl.html("");
 
 const settings = {
 	async: true,
@@ -347,6 +366,22 @@ checkBoxEl.on("change", function(event) {
     console.log(event.target);
 });
 
+
+gameSwitch.on("click", function(){
+    console.log()
+    
+    if(gameSwitch[0].attributes.game.textContent === "Wiki"){
+        gameSwitch[0].attributes.game.textContent = "Spotify"
+        init()
+    }else{
+        gameSwitch[0].attributes.game.textContent = "Wiki"
+        init()
+    }
+})
+
+
+
+
 function HighScores() {
     const savedScores = localStorage.getItem('highscore') || '[]' // get the score, or the initial value if empty
     const highscores = [...JSON.parse(savedScores)]
@@ -355,15 +390,12 @@ function HighScores() {
     theGame.css('display', 'none')
     highscoreEl.css('display', 'flex')
 
-    $('#hsList').html('')
 
-    clearInterval(timerInterval);
-    secondsLeft = secondsSlider;
-    scorePlus = 0;
+    // clearInterval(timerInterval);
 
     for (var i = 0; i < highscores.length; i++){
         var j = i+1
-        $('#hsList').append('<p class="highscore">'+ j + ". " + highscores[i].score + " WPM")
+        rootEl.append('<p class="highscore">'+ j + ". " + highscores[i].score + " WPM")
     }
     
     $("#goBack").on("click", init)
@@ -372,9 +404,8 @@ function HighScores() {
 
 
 function addHighscore(score) {
-    if (!score) {
-        return
-    } 
+    evt.preventDefault()
+    //
     const result = {score: score};
 
     const savedScores = localStorage.getItem('highscore') || '[]' // get the score, or the initial value if empty
@@ -400,34 +431,40 @@ slider.val(secondsLeft)
 slider.on('input', function(evt) {
     sliderPar.text(`Seconds: ${evt.target.value}`);
     secondsSlider = evt.target.value;
-    timerArea.text(evt.target.value);
+    timerArea.text(evt.target.value)
 })
 
 // Game/timer is over shows the score and calls again the Init function to start again.
 
-$('#highscoreBtn').on('click', HighScores);
-
-$('#clearHighscores').on('click', function() {
-    localStorage.clear();
-    HighScores()
-})
+highscoreBtn.on('click', HighScores);
 
 var placeHolder = "placeHolder"
  function gameOver(){
         gameOverPage.css("background", "#5e6974")
         paragraphEl.css("display", "none")
         gameOverPage.css("display", "block")
-        // words per minute calculation
-        wpm = Math.floor(scorePlus / 4.7 * 60 / secondsSlider);
-        scorePlus = 0;
-        $('#score').text("your Words per-min is " + wpm)
-        addHighscore(wpm)
 
-        clearInterval(timerInterval);
+        $('#score').text("your Words per-min is " + localStorage.getItem("wpm"))
 
         paragraphEl.html("");
+        timerRunning = false
         currentLetter = 0
 
         $("#restartGame").on("click", init)
        }
-       
+
+
+
+function init(){
+    
+    console.log(gameSwitch[0].attributes.game.textContent)
+    if(gameSwitch[0].attributes.game.textContent === "Wiki"){
+        siteLogo.text("Wiki-Type")
+        wikiApiStart()
+    }
+    else if(gameSwitch[0].attributes.game.textContent === "Spotify" ){
+        siteLogo.text("Spotify-Type")
+        spotifyApi()
+    }
+}
+init()       
