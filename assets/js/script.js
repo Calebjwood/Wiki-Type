@@ -312,7 +312,7 @@ var theGame = $("#theGame")
         paragraphEl.css("display", "none")
         gameOverPage.css("display", "block")
 
-        $('#score').text("your Words per-min is " + localStorage.getItem("wpm"))
+        $('#score').text("your words-per-min score is " + localStorage.getItem("wpm"))
 
         paragraphEl.html("");
         timerRunning = false
