@@ -274,7 +274,14 @@ function setMusixChecked (state) {
         localStorage.setItem("checked", state);
     }
 }
+const checkBoxEl = $("#lyricsCheckBox");
+checkBoxEl.checked = getMusixChecked();
 
+checkBoxEl.on("change", function(event) {
+    const musixChecked = event.target.checked;
+    setMusixChecked(musixChecked);
+    console.log(event.target);
+});
 
 //settings popup
 
