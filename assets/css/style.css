@@ -36,6 +36,7 @@ button {
   padding: .5rem;
 }
 
+
 .modal-content,
 .modal-footer a,
 .modal{
@@ -66,6 +67,14 @@ button {
   width: 50%;
 }
 
+#hsList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+}
 #highscores {
   display: none;
   flex-direction: column;
