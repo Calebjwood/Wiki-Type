@@ -264,7 +264,7 @@ function ApiClient(apiKey) {
     })
 
 }
-// ApiClient(apiMusix);
+ApiClient(apiMusix);
 
 function HighScores() {
     const savedScores = localStorage.getItem('highscore') || '[]' // get the score, or the initial value if empty
@@ -273,10 +273,10 @@ function HighScores() {
     //removes any unwanted elements from the dom and sets some styling
     theGame.css('display', 'none')
     highscoreEl.css('display', 'flex')
-    // highscoreEl.css('align-items', 'start');
-    //prevents timer from ticking
+
+
     // clearInterval(timerInterval);
-    //adds an element for every score in highscore
+
     for (var i = 0; i < highscores.length; i++){
         var j = i+1
         rootEl.append('<p class="highscore">'+ j + ". " + highscores[i].score + " WPM")
