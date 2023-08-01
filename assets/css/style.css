@@ -1,83 +1,83 @@
 * {
-    margin: 0;
-    padding: 0;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-  }
-  
-  body {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-    background: linear-gradient(0deg, rgb(171, 193, 207) 0%, rgb(125, 143, 151) 63%);
-  }
-  
-  
-  main {
-    /* Change or eliminate width and height however needed after materialize library */
-    flex: 1 0 auto;
-    width: 60%;
-    margin: 3rem auto;
-    background: #5e6974;
-    border: 3px solid black;
-  }
-  /* we can add more based on the classes we need and the events */
-  
-  section {
-    text-align: center;
-  }
-  
-  footer {
-    text-align: center;
-  }
-  
-  button {
-    border-radius: .25rem;
-    height: 2rem;
-    padding: .5rem;
-  }
-  
-  .modal-content,
-  .modal-footer a,
-  .modal{
-    color: white;
-    background-color: #212121;
-  }
-  
-  
-  .word {
-    display: flex;
-  }
-  
-  .letter {
-    font-size: 16pt;
-  }
-  
-  #test-paragraph {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    padding: 1rem;
-    margin: 2rem;
-    border: 3px solid black;
-  }
-  
-  
-  #slider {
-    width: 50%;
-  }
-  .correct {
-    color: rgb(47, 255, 47);
-  }
-  
-  .wrong {
-    color: rgb(255, 18, 18);
-  }
-  
-  .current {
-    padding-bottom: .5rem;
-    border-bottom: 3px solid black;
-  }
-  
-  .postScreenButtons{
-    margin: 1rem
-  }
+  margin: 0;
+  padding: 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background: linear-gradient(0deg, rgb(171, 193, 207) 0%, rgb(125, 143, 151) 63%);
+}
+
+
+main {
+  /* Change or eliminate width and height however needed after materialize library */
+  flex: 1 0 auto;
+  width: 60%;
+  margin: 3rem auto;
+  background: #5e6974;
+  border: 3px solid black;
+}
+/* we can add more based on the classes we need and the events */
+
+section {
+  text-align: center;
+}
+
+footer {
+  text-align: center;
+}
+
+button {
+  border-radius: .25rem;
+  height: 2rem;
+  padding: .5rem;
+}
+
+.modal-content,
+.modal-footer a,
+.modal{
+  color: white;
+  background-color: #212121;
+}
+
+
+.word {
+  display: flex;
+}
+
+.letter {
+  font-size: 16pt;
+}
+
+#test-paragraph {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  padding: 1rem;
+  margin: 2rem;
+  border: 3px solid black;
+}
+
+
+#slider {
+  width: 50%;
+}
+.correct {
+  color: rgb(47, 255, 47);
+}
+
+.wrong {
+  color: rgb(255, 18, 18);
+}
+
+.current {
+  padding-bottom: .5rem;
+  border-bottom: 3px solid black;
+}
+
+.postScreenButtons{
+  margin: 1rem
+}
