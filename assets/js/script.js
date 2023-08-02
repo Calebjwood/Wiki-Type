@@ -333,24 +333,6 @@ musixCheckBox.on("change", function () {
         ;
     } 
 } );
-// safe the musix checked event target in the local storage
-function getMusixChecked () {
-    var storedMusixValue = localStorage.getItem("checked");
-    return Boolean(storedMusixValue);
-}
-function setMusixChecked (state) {
-    if (typeof state === "boolean") {
-        localStorage.setItem("checked", state);
-    }
-}
-const checkBoxEl = $("#lyricsCheckBox");
-checkBoxEl.checked = getMusixChecked();
-
-checkBoxEl.on("change", function(event) {
-    const musixChecked = event.target.checked;
-    setMusixChecked(musixChecked);
-    console.log(event.target);
-});
 
 
 gameSwitch.on("click", function(){
