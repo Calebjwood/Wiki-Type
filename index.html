@@ -16,17 +16,19 @@
     <title>Word Type Test</title>
   </head>
 
-  <body>
+  <body id="root">
 
     <nav class="grey darken-4">
       <div class="nav-wrapper">
-        <a href="#" class="brand-logo right">Wiki-Type</a>
+        <a href="#" id="siteLogo" class="brand-logo right">Wiki-Type</a>
         <ul id="nav-mobile" class="left hide-on-med-and-down">
           <li><a href="#" id="highscoreBtn" >Highscores</a></li>
           <li><a href="#modal1" class="modal-trigger">Settings</a></li>
           <li><a href="#" id="startBtn">Start</a></li>
         </ul>
+        
       </div>
+      
     </nav>
 
     <main>
@@ -40,8 +42,8 @@
           <div id="gameOverPage">
               <h2>Game Over</h2>
               <h3 id="score"></h3>
-              <ul >
-                <li><a href="#" class="btn grey darken-4 white-text postScreenButtons">Highscores</a></li>
+              <ul>
+                <li><a href="#" id="highscoreBtn" class="btn grey darken-4 white-text postScreenButtons">Highscores</a></li>
                 <li><a href="#" id="restartGame" class="btn grey darken-4 white-text postScreenButtons">Try Again</a></li>
               </ul>
           </div>
@@ -52,25 +54,26 @@
       </section>
       <section id="highscores">
         <h2>Highscores</h2>
-        <p class="highscore">1. 131 WPM</p>
-        <a href="#" id="goBack" class="btn grey darken-4 white-text postScreenButtons">Go Back</a>
+        <div id="hsList">
+        </div>
+        <div>
+          <a href="#" id="goBack" class="btn grey darken-4 white-text postScreenButtons">Go Back</a>
+          <a href="#" id="clearHighscores" class="btn grey darken-4 white-text postScreenButtons">Clear Highscores</a>
+        </div>
+
       </section>
     </main>
     <div id="modal1" class="modal">
       <div class="modal-content grey darken-4">
         <h4>Settings</h4>
-        <p>
+        <div class="switch hide-on-med-and-down">
           <label>
-            <input type="checkbox" class="filled-in" checked="checked" />
-            <span>Wikipedia Articles</span>
+            Wiki
+            <input id="gameSwitch" game="Wiki" type="checkbox">
+            <span class="lever"></span>
+            Spotify
           </label>
-        </p>
-        <p>
-          <label>
-            <input type="checkbox" class="filled-in" checked="checked" id="lyricsCheckBox" />
-            <span>Music Lyrics</span>
-          </label>
-        </p>
+        </div>
         <p id="secondLbl">Seconds: </p>
         <div id="slider">
           <form action="#">
@@ -88,7 +91,7 @@
     <footer class="page-footer grey darken-4">
     <div class="footer-copyright">
       <div class="container">
-      © Footer Project Group 1
+      Project Group 4
       </div>
     </div>
   </footer>
