@@ -444,11 +444,9 @@ $('#clearHighscores').on('click', function() {
         // words per minute calculation
         wpm = Math.floor(scorePlus / 4.7 * 60 / secondsSlider);
         scorePlus = 0;
-        $('#score').text("your Words per-min is " + wpm)
+        $('#score').text("WPM:  " + wpm)
         addHighscore(wpm)
 
-        
-        
         paragraphEl.html("");
         currentLetter = 0
 
@@ -458,7 +456,10 @@ $('#clearHighscores').on('click', function() {
 function init(){
     
     $("#startBtn").css('display', 'block');
+    timerArea.text(secondsSlider);
     gameOverFlag = false;
+    timerRunning = false
+    currentLetter = 0;
 
     if(gameSwitch[0].attributes.game.textContent === "Wiki"){
         siteLogo.text("Wiki-Type")
