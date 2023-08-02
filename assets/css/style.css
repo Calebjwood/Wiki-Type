@@ -11,16 +11,17 @@ body {
   background: linear-gradient(0deg, rgb(171, 193, 207) 0%, rgb(125, 143, 151) 63%);
 }
 
+#siteLogo:hover {
+  cursor: default;
+}
 
 main {
-  /* Change or eliminate width and height however needed after materialize library */
   flex: 1 0 auto;
   width: 60%;
   margin: 3rem auto;
   background: #5e6974;
   border: 3px solid black;
 }
-/* we can add more based on the classes we need and the events */
 
 section {
   text-align: center;
