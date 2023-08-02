@@ -15,11 +15,13 @@ var sliderPar = $('#secondLbl');
 var gameIsOver = false;
 
 sliderPar.text('Seconds: ' + secondsLeft)
+
 // Begin timer when click start button.
 theBigRedButton.click(function () {
     if (!timerRunning) {
         setTime();
         timerRunning = true;
+        theBigRedButton.prop("disabled", true);
     }
 });
 
@@ -39,6 +41,7 @@ function setTime() {
             timerArea.text(secondsSlider);
             // timerRunning = false
             gameOver()
+            theBigRedButton.prop("disabled", true);
             return;
         }
     }, 1000);
@@ -413,6 +416,7 @@ function addHighscore(score) {
 document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.modal');
     var instances = M.Modal.init(elems);
+    console.log(instances);
   });
        
 //setting slider event listener
@@ -436,6 +440,10 @@ $('#clearHighscores').on('click', function() {
     HighScores()
 })
 
+$("#restartGame").on("click", function () {
+    theBigRedButton.prop("disabled", false);
+    init();
+});
 
  function gameOver(){
         gameOverPage.css("background", "#5e6974")
@@ -453,12 +461,13 @@ $('#clearHighscores').on('click', function() {
         paragraphEl.html("");
         currentLetter = 0
 
-        $("#restartGame").on("click", init)
+        
        }
 
 function init(){
     
     gameIsOver = false;
+    $("#startBtn").prop("disabled", false);
 
     console.log(gameSwitch[0].attributes.game.textContent)
     if(gameSwitch[0].attributes.game.textContent === "Wiki"){
@@ -470,4 +479,4 @@ function init(){
         spotifyApi()
     }
 }
-init()  
+init()
