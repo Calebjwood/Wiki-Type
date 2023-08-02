@@ -243,7 +243,7 @@ addEventListener('keydown', onKeyPress);
 
 var artistNameArray = []
 lyricPrompt = ""
-var spotifykey = "831eec012dmshe433cc703128157p1c4d7ejsn9479fdf98d6b"
+var spotifykey = "fb64f758c5mshba43018d7caf0fdp1eb5fbjsn7a5ea2101a3c"
 
 
 
