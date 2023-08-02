@@ -12,6 +12,7 @@ var timerInterval;
 var gameSwitch = $("#gameSwitch")
 var siteLogo = $('#siteLogo')
 var sliderPar = $('#secondLbl');
+var gameIsOver = false;
 
 sliderPar.text('Seconds: ' + secondsLeft)
 // Begin timer when click start button.
@@ -115,6 +116,10 @@ function showText(text) {
 // Trigger the game and timer!
 function onKeyPress(event) {
     
+    if (gameIsOver) {
+        return;
+    }
+
     if (!timerRunning) {
         setTime();
         timerRunning = true;
@@ -444,6 +449,7 @@ $('#clearHighscores').on('click', function() {
 
         clearInterval(timerInterval);
         timerRunning = false
+        gameIsOver = true;
         paragraphEl.html("");
         currentLetter = 0
 
@@ -452,6 +458,8 @@ $('#clearHighscores').on('click', function() {
 
 function init(){
     
+    gameIsOver = false;
+
     console.log(gameSwitch[0].attributes.game.textContent)
     if(gameSwitch[0].attributes.game.textContent === "Wiki"){
         siteLogo.text("Wiki-Type")
