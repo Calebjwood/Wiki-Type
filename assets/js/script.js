@@ -303,7 +303,7 @@ function spotifyApi(){
     highscoreEl.css('display', 'none')
     paragraphEl.css("display", "flex")
     theGame.css('display', 'block')
-    paragraphEl.html("");
+    
 
     const settings = {
         async: true,
@@ -453,7 +453,7 @@ $('#clearHighscores').on('click', function() {
        }
 
 function init(){
-    
+    paragraphEl.html("");
     $("#startBtn").css('display', 'block');
     timerArea.text(secondsSlider);
     gameOverFlag = false;
