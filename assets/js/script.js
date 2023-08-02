@@ -251,15 +251,15 @@ function getArtistId(artistNameArray){
   var index = Math.floor((Math.random()*artistNameArray.length))
   var artistName = artistNameArray[index].split(" ").join("20%")
 
-const settings = {
-	async: true,
-	crossDomain: true,
-	url: 'https://spotify23.p.rapidapi.com/search/?q=' + artistName + '&type=multi&offset=0&limit=10&numberOfTopResults=5',
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': spotifykey,
-		'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
-	}
+    const settings = {
+        async: true,
+        crossDomain: true,
+        url: 'https://spotify23.p.rapidapi.com/search/?q=' + artistName + '&type=multi&offset=0&limit=10&numberOfTopResults=5',
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': spotifykey,
+            'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
+        }
 };
 
 $.ajax(settings).done(function (response) {
@@ -288,12 +288,11 @@ function getLyrics(trackId){
       return
     }
     var lyricsArry =  response.lyrics.lines
-        for( var i = 0;i < lyricsArry.length; i++){
-            lyricPrompt = lyricPrompt + lyricsArry[i].words
+    for( var i = 0;i < lyricsArry.length; i++){
+        lyricPrompt = lyricPrompt + lyricsArry[i].words + " ";
       
     }
     showText(formatText(lyricPrompt))
-    console.log(lyricPrompt)
   });
 
 }
@@ -306,26 +305,26 @@ function spotifyApi(){
     theGame.css('display', 'block')
     paragraphEl.html("");
 
-const settings = {
-	async: true,
-	crossDomain: true,
-	url: 'https://spotify23.p.rapidapi.com/playlist_tracks/?id=37i9dQZF1EQpjs4F0vUZ1x&offset=0&limit=5',
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': spotifykey,
-		'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
-	}
+    const settings = {
+        async: true,
+        crossDomain: true,
+        url: 'https://spotify23.p.rapidapi.com/playlist_tracks/?id=37i9dQZF1EQpjs4F0vUZ1x&offset=0&limit=5',
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': spotifykey,
+            'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
+        }
+    };
+
+    $.ajax(settings).done(function (response) {
+    var playlistArray = response.items
+        for(var i = 0; i < playlistArray.length; i++){
+        artistNameArray.push(playlistArray[i].track.artists[0].name)
+        }
+    
+        getArtistId(artistNameArray)
+    })
 };
-
-$.ajax(settings).done(function (response) {
-  var playlistArray = response.items
-    for(var i = 0; i < playlistArray.length; i++){
-       artistNameArray.push(playlistArray[i].track.artists[0].name)
-    }
-   
-    getArtistId(artistNameArray)
-})};
-
 
 var musixCheckBox = $("#lyricsCheckBox");
 musixCheckBox.on("change", function () {
