@@ -288,13 +288,11 @@ function getLyrics(trackId){
       return
     }
     var lyricsArry =  response.lyrics.lines
-    console.log(lyricsArry);
     for( var i = 0;i < lyricsArry.length; i++){
-        lyricPrompt = lyricPrompt + lyricsArry[i].words
+        lyricPrompt = lyricPrompt + lyricsArry[i].words + " ";
       
     }
     showText(formatText(lyricPrompt))
-    console.log(lyricPrompt)
   });
 
 }
