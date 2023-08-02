@@ -2,16 +2,20 @@ let timerArea = $("#timeClock");
 let theBigRedButton = $("#startBtn");
 var highscoreEl = $('#highscores');
 var theGame = $("#theGame");
-var secondsSlider = 60;
-var secondsLeft = 60;
-var currentLetter = 0;
-let scorePlus = 0;
-var wpm = 0
-var timerRunning = false;
-var timerInterval;
 var gameSwitch = $("#gameSwitch")
 var siteLogo = $('#siteLogo')
 var sliderPar = $('#secondLbl');
+//typing
+var currentLetter = 0;
+let scorePlus = 0;
+var wpm = 0
+//timer
+var timerRunning = false;
+var timerInterval;
+var secondsSlider = 60;
+var secondsLeft = 60;
+
+var gameOverFlag = false
 
 sliderPar.text('Seconds: ' + secondsLeft)
 // Begin timer when click start button.
@@ -34,7 +38,6 @@ function setTime() {
         timerArea.text(secondsLeft);
         if(secondsLeft === 0) {
             clearInterval(timerInterval);
-            $("#startBtn").css('display', 'block');
             timerArea.text(secondsSlider);
             // timerRunning = false
             gameOver()
@@ -115,7 +118,7 @@ function showText(text) {
 // Trigger the game and timer!
 function onKeyPress(event) {
     
-    if (!timerRunning) {
+    if (!timerRunning && !gameOverFlag) {
         setTime();
         timerRunning = true;
     }
@@ -160,7 +163,6 @@ function wikiApiStart(){
     highscoreEl.css('display', 'none')
     paragraphEl.css("display", "flex")
     theGame.css('display', 'block')
-    paragraphEl.html("");
 //Random fetch
  var url = "https://en.wikipedia.org/w/api.php"; 
 
@@ -237,8 +239,6 @@ function promptStack(prompt){
     } 
 }
 
-init()
-
 addEventListener('keydown', onKeyPress);
 
 var artistNameArray = []
@@ -251,15 +251,15 @@ function getArtistId(artistNameArray){
   var index = Math.floor((Math.random()*artistNameArray.length))
   var artistName = artistNameArray[index].split(" ").join("20%")
 
-const settings = {
-	async: true,
-	crossDomain: true,
-	url: 'https://spotify23.p.rapidapi.com/search/?q=' + artistName + '&type=multi&offset=0&limit=10&numberOfTopResults=5',
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': spotifykey,
-		'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
-	}
+    const settings = {
+        async: true,
+        crossDomain: true,
+        url: 'https://spotify23.p.rapidapi.com/search/?q=' + artistName + '&type=multi&offset=0&limit=10&numberOfTopResults=5',
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': spotifykey,
+            'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
+        }
 };
 
 $.ajax(settings).done(function (response) {
@@ -288,12 +288,11 @@ function getLyrics(trackId){
       return
     }
     var lyricsArry =  response.lyrics.lines
-        for( var i = 0;i < lyricsArry.length; i++){
-            lyricPrompt = lyricPrompt + lyricsArry[i].words
+    for( var i = 0;i < lyricsArry.length; i++){
+        lyricPrompt = lyricPrompt + lyricsArry[i].words + " ";
       
     }
     showText(formatText(lyricPrompt))
-    console.log(lyricPrompt)
   });
 
 }
@@ -306,26 +305,26 @@ function spotifyApi(){
     theGame.css('display', 'block')
     paragraphEl.html("");
 
-const settings = {
-	async: true,
-	crossDomain: true,
-	url: 'https://spotify23.p.rapidapi.com/playlist_tracks/?id=37i9dQZF1EQpjs4F0vUZ1x&offset=0&limit=5',
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': spotifykey,
-		'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
-	}
+    const settings = {
+        async: true,
+        crossDomain: true,
+        url: 'https://spotify23.p.rapidapi.com/playlist_tracks/?id=37i9dQZF1EQpjs4F0vUZ1x&offset=0&limit=5',
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': spotifykey,
+            'X-RapidAPI-Host': 'spotify23.p.rapidapi.com'
+        }
+    };
+
+    $.ajax(settings).done(function (response) {
+    var playlistArray = response.items
+        for(var i = 0; i < playlistArray.length; i++){
+        artistNameArray.push(playlistArray[i].track.artists[0].name)
+        }
+    
+        getArtistId(artistNameArray)
+    })
 };
-
-$.ajax(settings).done(function (response) {
-  var playlistArray = response.items
-    for(var i = 0; i < playlistArray.length; i++){
-       artistNameArray.push(playlistArray[i].track.artists[0].name)
-    }
-   
-    getArtistId(artistNameArray)
-})};
-
 
 var musixCheckBox = $("#lyricsCheckBox");
 musixCheckBox.on("change", function () {
@@ -424,7 +423,7 @@ slider.on('input', function(evt) {
 
 // Game/timer is over shows the score and calls again the Init function to start again.
 
-$('#highscoreBtn').on('click', HighScores);
+$('#root').on('click', "#highscoreBtn", HighScores);
 
 $('#clearHighscores').on('click', function() {
     localStorage.clear();
@@ -436,14 +435,17 @@ $('#clearHighscores').on('click', function() {
         gameOverPage.css("background", "#5e6974")
         paragraphEl.css("display", "none")
         gameOverPage.css("display", "block")
+
+        gameOverFlag = true
+         
+        clearInterval(timerInterval);
+        timerRunning = false
         // words per minute calculation
         wpm = Math.floor(scorePlus / 4.7 * 60 / secondsSlider);
         scorePlus = 0;
-        $('#score').text("your Words per-min is " + wpm)
+        $('#score').text("WPM:  " + wpm)
         addHighscore(wpm)
 
-        clearInterval(timerInterval);
-        timerRunning = false
         paragraphEl.html("");
         currentLetter = 0
 
@@ -452,7 +454,12 @@ $('#clearHighscores').on('click', function() {
 
 function init(){
     
-    console.log(gameSwitch[0].attributes.game.textContent)
+    $("#startBtn").css('display', 'block');
+    timerArea.text(secondsSlider);
+    gameOverFlag = false;
+    timerRunning = false
+    currentLetter = 0;
+
     if(gameSwitch[0].attributes.game.textContent === "Wiki"){
         siteLogo.text("Wiki-Type")
         wikiApiStart()

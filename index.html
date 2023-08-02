@@ -16,7 +16,7 @@
     <title>Word Type Test</title>
   </head>
 
-  <body>
+  <body id="root">
 
     <nav class="grey darken-4">
       <div class="nav-wrapper">
@@ -26,14 +26,7 @@
           <li><a href="#modal1" class="modal-trigger">Settings</a></li>
           <li><a href="#" id="startBtn">Start</a></li>
         </ul>
-        <div class="switch center hide-on-med-and-down">
-      <label>
-        Wiki
-        <input id="gameSwitch" game="Wiki" type="checkbox">
-        <span class="lever"></span>
-        Spotify
-      </label>
-    </div>
+        
       </div>
       
     </nav>
@@ -73,6 +66,14 @@
     <div id="modal1" class="modal">
       <div class="modal-content grey darken-4">
         <h4>Settings</h4>
+        <div class="switch hide-on-med-and-down">
+          <label>
+            Wiki
+            <input id="gameSwitch" game="Wiki" type="checkbox">
+            <span class="lever"></span>
+            Spotify
+          </label>
+        </div>
         <p id="secondLbl">Seconds: </p>
         <div id="slider">
           <form action="#">
@@ -90,7 +91,7 @@
     <footer class="page-footer grey darken-4">
     <div class="footer-copyright">
       <div class="container">
-      © Footer Project Group 1
+      Project Group 4
       </div>
     </div>
   </footer>
