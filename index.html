@@ -20,13 +20,22 @@
 
     <nav class="grey darken-4">
       <div class="nav-wrapper">
-        <a href="#" class="brand-logo right">Wiki-Type</a>
+        <a href="#" id="siteLogo" class="brand-logo right">Wiki-Type</a>
         <ul id="nav-mobile" class="left hide-on-med-and-down">
           <li><a href="#" id="highscoreBtn" >Highscores</a></li>
           <li><a href="#modal1" class="modal-trigger">Settings</a></li>
           <li><a href="#" id="startBtn">Start</a></li>
         </ul>
+        <div class="switch center hide-on-med-and-down">
+      <label>
+        Wiki
+        <input id="gameSwitch" game="Wiki" type="checkbox">
+        <span class="lever"></span>
+        Spotify
+      </label>
+    </div>
       </div>
+      
     </nav>
 
     <main>
@@ -64,18 +73,6 @@
     <div id="modal1" class="modal">
       <div class="modal-content grey darken-4">
         <h4>Settings</h4>
-        <p>
-          <label>
-            <input type="checkbox" class="filled-in" checked="checked" />
-            <span>Wikipedia Articles</span>
-          </label>
-        </p>
-        <p>
-          <label>
-            <input type="checkbox" class="filled-in" checked="checked" id="lyricsCheckBox" />
-            <span>Music Lyrics</span>
-          </label>
-        </p>
         <p id="secondLbl">Seconds: </p>
         <div id="slider">
           <form action="#">
