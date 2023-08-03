@@ -2,6 +2,8 @@
 
 ![Application Layout upon Page Load](./assets/images/overview.png)
 
+Visit the website at: https://calebjwood.github.io/Wiki-Type/
+
 ## User Story ##
 AS A user looking to practice typing skills
 
