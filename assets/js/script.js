@@ -326,15 +326,6 @@ function spotifyApi(){
     })
 };
 
-var musixCheckBox = $("#lyricsCheckBox");
-musixCheckBox.on("change", function () {
-    if ($(this).is(":checked")) {
-            spotifyApi()
-        ;
-    } 
-} );
-
-
 gameSwitch.on("click", function(){
     console.log()
     
